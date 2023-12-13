@@ -188,7 +188,7 @@ def index(request):
     return render(request, 'mastertemplate/user_interface1.html', {'dropdown_values': dropdown_values})
 
 def main_func(request):
-    master_temp = pd.read_excel(r"C:\Users\Lenovo\Desktop\centerpoint\CP Content_Template.xlsx")
+    #master_temp = pd.read_excel(r"C:\Users\Lenovo\Desktop\centerpoint\CP Content_Template.xlsx")
     Sheet_ID_1 = '1hGJINSRtlDs9yEXH5wI9eGazN9WUgLvS'
     sheet = pd.ExcelFile(f"https://docs.google.com/spreadsheets/d/{Sheet_ID_1}/export?format=xlsx")
     merged_temp = pd.read_excel(sheet, sheet_name="Attribute and Values")
