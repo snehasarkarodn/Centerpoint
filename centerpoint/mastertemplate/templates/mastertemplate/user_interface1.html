@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centerpoint</title>
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css">-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <h1>Download Templates</h1>
+
+    <form method="post" action="{% url 'main_func' %}">
+        {% csrf_token %}
+        <label for="dropdown_values">Select Categories(s):</label>
+        <!-- Update the select element to use Select2 -->
+        <select id="dropdown_values" name="dropdown_values" multiple="multiple" class="js-example-basic-multiple">
+            {% for option in dropdown_values %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="selected_values" id="selected_values" value="" />
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <div style="margin-top: 10px;">
+        {% if output_path %}
+        <a href="{% url 'download_template' file_path=output_path %}" download>
+            <button>Download Template</button>
+        </a>
+        {% endif %}
+    </div>
+
+    <script>
+        // Initialize Select2
+        $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({
+                tags: true,
+                tokenSeparators: [',', ' '],
+            });
+        });
+
+        // Update the hidden input with selected values before form submission
+        document.querySelector('form').addEventListener('submit', function() {
+            var selectedValues = $('#dropdown_values').val();
+            document.getElementById('selected_values').value = JSON.stringify(selectedValues);
+        });
+    </script>
+</body>
+</html>
