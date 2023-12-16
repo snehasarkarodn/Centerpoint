@@ -81,7 +81,6 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
     col_suffixes = country_columns[country]
     if header_suffix not in col_suffixes:
         for r in range(2, 100):
-            print("col_letter:", col_letter)
             sheet[f"{col_letter}{r}"].value = f'=IF(OR({input_col[0]}{r}<>"",{input_col[1]}{r}<>"",{input_col[2]}{r}<>""),"Yes","No")'
 
 def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values):
@@ -179,8 +178,6 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
             header_suffix = header.value[:-3].strip()
             col_letter = get_column_letter(idx)
             if country_code in columns_letter:
-                print("country_code", country_code)
-                print("col_letter", col_letter)
                 add_formula(sheet, country_code, header_suffix, col_letter, columns_letter[country_code])
 
     color_code_columns(sheet, selected_df, mandatory_fixed)
@@ -265,7 +262,6 @@ def download_template(request, file_path):
 def update_sheet(request):
     if request.method == 'POST':
         sheet_id = request.POST.get('sheet_id', '')
-        print(f"Received Sheet ID: {sheet_id}")
 
         # Load sheets from Google Sheets
         sheet = pd.ExcelFile(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx")
@@ -317,7 +313,5 @@ def update_sheet(request):
 
 def display_data(request):
     data_records = ProcessedData.objects.all()
-    print(data_records)
-
     return render(request, 'mastertemplate/user_interface1.html', {'data_records': data_records})
    
