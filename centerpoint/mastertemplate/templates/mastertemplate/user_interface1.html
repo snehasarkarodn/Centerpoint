@@ -67,18 +67,26 @@
         <table id="dataTable">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>Unique ID</th>
                     <th>Output Path</th>
                     <th>Selected Values</th>
+                    <th>File Name</th>
+                    <th>Created By</th>
+                    <th>Created On</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for record in data_records %}
                     <tr>
+                        <td>{{ forloop.counter }}
                         <td>{{ record.unique_id }}</td>
                         <td>{{ record.output_path }}</td>
                         <td>{{ record.selected_values }}</td>
+                        <td>{{ record.filename }}</td>
+                        <td>{{ record.created_by }}</td>
+                        <td>{{ record.created_on }}</td>
                         <td>
                             {% if record.output_path %}
                                 <a href="{% url 'download_template' file_path=record.output_path %}" download>

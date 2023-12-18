@@ -18,45 +18,38 @@ def process_english(english_string):
             unique_values.append(value)
     return unique_values
 
+
 def color_code_columns(sheet, selected_df, mandatory_fixed):
-    for idx, header in enumerate(sheet[1], start=1):
-        if header.value in mandatory_fixed.columns:
-            col_letter = get_column_letter(idx)
-            is_mandatory = mandatory_fixed.at[
-                               0, header.value] == 'Yes' if header.value in mandatory_fixed.columns else False
+    header_values = sheet[1]
+    mandatory_columns = mandatory_fixed.columns
 
-            cell = sheet.cell(row=1, column=idx)
-            if is_mandatory:
-                cell.fill = openpyxl.styles.PatternFill(start_color="00FF00", end_color="00FF00",
-                                                        fill_type="solid")  # Green
-            else:
-                cell.fill = openpyxl.styles.PatternFill(start_color="FFFF00", end_color="FFFF00",
-                                                        fill_type="solid")  # Yellow
+    for idx, header in enumerate(header_values, start=1):
+        col_letter = get_column_letter(idx)
 
+        if header.value in mandatory_columns:
+            is_mandatory = mandatory_fixed.at[0, header.value] == 'Yes'
         elif header.value in selected_df["Field Name"].values:
-            row_index = selected_df.index[selected_df["Field Name"] == header.value].tolist()[0]
-            is_mandatory = selected_df.at[row_index, "Mandatory"] == 'yes' if header.value in selected_df[
-                "Field Name"].values else False
+            row_index = selected_df["Field Name"].eq(header.value).idxmax()
+            is_mandatory = selected_df.at[row_index, "Mandatory"] == 'yes'
+        else:
+            continue
 
-            is_Field_Type = selected_df.at[row_index, "Field Type"] == 'select' or selected_df.at[
-                row_index, "Field Type"] == 'multi-select' if header.value in selected_df[
-                "Field Name"].values else False
+        cell = sheet.cell(row=1, column=idx)
 
-            cell = sheet.cell(row=1, column=idx)
-            if is_mandatory:
-                cell.fill = openpyxl.styles.PatternFill(start_color="00FF00", end_color="00FF00",
-                                                        fill_type="solid")  # Green
-            else:
-                cell.fill = openpyxl.styles.PatternFill(start_color="FFFF00", end_color="FFFF00",
-                                                        fill_type="solid")  # Yellow
+        if is_mandatory:
+            cell.fill = openpyxl.styles.PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
+        else:
+            cell.fill = openpyxl.styles.PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
 
-            if is_Field_Type:
+        if header.value in selected_df["Field Name"].values:
+            field_type = selected_df.at[row_index, "Field Type"]
+            if field_type == 'select' or field_type == 'multi-select':
                 cell.font = openpyxl.styles.Font(color="FF0000")
 
-def add_hidden_data_validation(sheet, col_idx, max_length, hidden_col_idx):
-    dv = DataValidation(type="list", formula1=f'hidden_sheet!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${max_length + 1}')
 
-    # Apply data validation to the entire column in the second row
+
+def add_hidden_data_validation(sheet, col_idx, col_len, hidden_col_idx):
+    dv = DataValidation(type="list", formula1=f'hidden_sheet!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${col_len + 1}')
     for r in range(2, 100):
         sheet.add_data_validation(dv)
         dv.add(sheet.cell(row=r, column=col_idx))
@@ -64,8 +57,6 @@ def add_hidden_data_validation(sheet, col_idx, max_length, hidden_col_idx):
 
 def add_temp_data_validation(sheet, idx, max_temp_len, hidden_col_idx):
     dv = DataValidation(type="list", formula1=f'hidden_sheet1!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${max_temp_len + 1}')
-
-    # Apply data validation to the entire column in the second row
     for r in range(2, 100):
         sheet.add_data_validation(dv)
         dv.add(sheet.cell(row=r, column=idx))
@@ -137,23 +128,30 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     for r_idx, row in template_dropdown.iterrows():
         for c_idx, value in enumerate(row, start=1):
             hidden_sheet1.cell(row=r_idx + 2, column=c_idx, value=value)
-
-    max_temp_len = template_dropdown.shape[0]
+    wb.save(output_path)
 
     # Adding Data Validation
+    hidden = pd.read_excel(output_path, sheet_name='hidden_sheet')
+    temp_hidden = pd.read_excel(output_path, sheet_name='hidden_sheet1')
+    sheet = wb.active
     for idx, header in enumerate(sheet[1], start=1):
         if header.value in headers:
             hidden_col_idx = headers.index(header.value) + 1 if header.value in headers else None
+            if header.value in hidden.columns:
+                col_len = hidden[header.value].count()
 
             if hidden_col_idx is not None:
                 for r in range(2, hidden_sheet.max_row + 1):
-                    add_hidden_data_validation(sheet, idx, max_length, hidden_col_idx)
+                    add_hidden_data_validation(sheet, idx, col_len, hidden_col_idx)
             else:
                 for r in range(2, sheet.max_row + 1):
                     sheet.cell(row=r, column=idx, value=None)
 
         elif header.value in headers1:
             hidden_col_idx = headers1.index(header.value) + 1 if header.value in headers1 else None
+
+            if header.value in temp_hidden.columns:
+                max_temp_len = temp_hidden[header.value].count()
 
             if hidden_col_idx is not None:
                 for r in range(2, hidden_sheet1.max_row + 1):
@@ -313,5 +311,6 @@ def update_sheet(request):
 
 def display_data(request):
     data_records = ProcessedData.objects.all()
+    print(data_records)
     return render(request, 'mastertemplate/user_interface1.html', {'data_records': data_records})
    
