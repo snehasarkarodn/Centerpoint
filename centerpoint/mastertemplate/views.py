@@ -47,17 +47,20 @@ def color_code_columns(sheet, selected_df, mandatory_fixed):
                 cell.font = openpyxl.styles.Font(color="FF0000")
 
 
-
 def add_hidden_data_validation(sheet, col_idx, col_len, hidden_col_idx):
     dv = DataValidation(type="list", formula1=f'hidden_sheet!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${col_len + 1}')
-    for r in range(2, 100):
+
+    # Apply data validation to the entire column in the second row
+    for r in range(2, 3):
         sheet.add_data_validation(dv)
         dv.add(sheet.cell(row=r, column=col_idx))
 
 
 def add_temp_data_validation(sheet, idx, max_temp_len, hidden_col_idx):
     dv = DataValidation(type="list", formula1=f'hidden_sheet1!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${max_temp_len + 1}')
-    for r in range(2, 100):
+
+    # Apply data validation to the entire column in the second row
+    for r in range(2, 3):
         sheet.add_data_validation(dv)
         dv.add(sheet.cell(row=r, column=idx))
 
@@ -71,7 +74,7 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
 
     col_suffixes = country_columns[country]
     if header_suffix not in col_suffixes:
-        for r in range(2, 100):
+        for r in range(2, 3):
             sheet[f"{col_letter}{r}"].value = f'=IF(OR({input_col[0]}{r}<>"",{input_col[1]}{r}<>"",{input_col[2]}{r}<>""),"Yes","No")'
 
 def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values):
@@ -181,6 +184,9 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     color_code_columns(sheet, selected_df, mandatory_fixed)
 
     wb.save(output_path)
+    wb = openpyxl.load_workbook(output_path)
+    output_path=output_path.replace('.xlsx','.xls')
+    wb.save(output_path)
 
     processed_data_instance = ProcessedData.objects.create(
         unique_id=unique_id,
@@ -191,6 +197,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     )
 
     return output_path
+
 
 
 def index(request):
@@ -225,7 +232,7 @@ def main_func(request):
         selected_df["Processed_English"] = selected_df["English"].apply(lambda x: process_english(x))
 
         output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values)
-
+  
         if os.path.exists(output_path):
             return render(request, 'mastertemplate/user_interface1.html', {
                 'dropdown_values': dropdown_values,
@@ -240,6 +247,7 @@ def main_func(request):
         # 'button': button,
         # 'output': output
     })
+
 
 def download_template(request, file_path):
     file_path = file_path.replace("/", "\\")
@@ -311,6 +319,5 @@ def update_sheet(request):
 
 def display_data(request):
     data_records = ProcessedData.objects.all()
-    print(data_records)
     return render(request, 'mastertemplate/user_interface1.html', {'data_records': data_records})
    
