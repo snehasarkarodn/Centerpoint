@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Processing</title>
+</head>
+<body>
+    <h1>Quality Check</h1>
+    <form id="uploadForm" enctype="multipart/form-data" method="post" action="{% url 'process_file' %}">
+        {% csrf_token %}
+        <input type="file" name="excelFile" accept=".xls, .xlsx" required />
+        <button type="button" onclick="uploadFile()">Submit</button>
+    </form>
+    
+    <div style="margin-top: 10px;"></div>
+    {% if output_path %}
+        <a href="{% url 'download_template' file_path=output_path %}" download>
+            <button>Download Template</button>
+        </a>
+    {% endif %}
+    </div>
+
+    <script>
+        function uploadFile() {
+            var form = document.getElementById("uploadForm");
+            var formData = new FormData(form);
+
+            // Display processing message
+            document.getElementById("processingMessage").style.display = "block";
+
+            // Submit the form via AJAX
+            fetch('process_file', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide processing message
+                document.getElementById("processingMessage").style.display = "none";
+
+                // Show download link
+                document.getElementById("downloadLink").style.display = "block";
+
+                // Set download link href
+                document.getElementById("downloadLink").href = data.download_url;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

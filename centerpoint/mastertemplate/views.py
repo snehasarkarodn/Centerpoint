@@ -7,7 +7,9 @@ import openpyxl
 import json
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
+from openpyxl.styles import PatternFill
 from .models import ProcessedData
+
 
 def process_english(english_string):
     unique_values = []
@@ -77,6 +79,8 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
         for r in range(2, 3):
             sheet[f"{col_letter}{r}"].value = f'=IF(OR({input_col[0]}{r}<>"",{input_col[1]}{r}<>"",{input_col[2]}{r}<>""),"Yes","No")'
 
+
+
 def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values):
     selected_sheet = "CP Content_Template"
     master_temp = pd.read_excel(testdata, sheet_name=selected_sheet)
@@ -137,6 +141,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     hidden = pd.read_excel(output_path, sheet_name='hidden_sheet')
     temp_hidden = pd.read_excel(output_path, sheet_name='hidden_sheet1')
     sheet = wb.active
+    barcode_col_idx = None
     for idx, header in enumerate(sheet[1], start=1):
         if header.value in headers:
             hidden_col_idx = headers.index(header.value) + 1 if header.value in headers else None
@@ -167,6 +172,9 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
             col_letter = get_column_letter(idx)
             for r in range(2, 100):
                 sheet[f"{col_letter}{r}"].value = f'=SUBSTITUTE(D{r}, " ", "")& "CP" & TEXT(TODAY(), "DD-MM-YYYY")'
+        
+        elif header.value == "Barcode":
+            barcode_col_idx = idx
 
         elif header.value.endswith(('UAE', 'KSA', 'QAT', 'KWT')):
             columns_letter = {
@@ -180,10 +188,23 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
             col_letter = get_column_letter(idx)
             if country_code in columns_letter:
                 add_formula(sheet, country_code, header_suffix, col_letter, columns_letter[country_code])
+    
+    if barcode_col_idx is not None:
+        for r in range(2, sheet.max_row + 1):
+            cell = sheet.cell(row=r, column=barcode_col_idx)
+            formula = f'COUNTIF(${get_column_letter(barcode_col_idx)}$2:${get_column_letter(barcode_col_idx)}${sheet.max_row}, ${get_column_letter(barcode_col_idx)}{r})>1'
+            rule = openpyxl.formatting.rule.FormulaRule(
+                formula=[formula],
+                stopIfTrue=True,
+                fill=PatternFill(start_color="FFCCCC", end_color="FFCCCC", fill_type="solid")
+            )
+            sheet.conditional_formatting.add(f'{get_column_letter(barcode_col_idx)}{r}', rule)
 
     color_code_columns(sheet, selected_df, mandatory_fixed)
 
     wb.save(output_path)
+
+
     wb = openpyxl.load_workbook(output_path)
     output_path=output_path.replace('.xlsx','.xls')
     wb.save(output_path)

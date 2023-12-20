@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3f54c03-4827-482c-837d-0257e8911bf4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/centerpoint/centerpoint/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/centerpoint/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/centerpoint/centerpoint/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/centerpoint/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/centerpoint/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/Centerpoint_master_template/centrepoint_Template and attribute.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/mastertemplate/Centerpoint_master_template/centrepoint_Template and attribute.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_0b2a3923.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_1857cd54.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_264020f7.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_353450b2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_3d1c4905.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_3fa1f9c5.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_46f7f05e.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_6aa08f88.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_79ad0bf3.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_8d0abed2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_9dbee677.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_a295b3f3.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_b21f3200.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_b625ca75.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_d8f00030.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_d98da031.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/stored_data/CP Content_Template_fbe8cd8e.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/mastertemplate/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
