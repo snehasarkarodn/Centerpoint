@@ -13,19 +13,36 @@ def index(request):
 def process_file(request):
     if request.method == 'POST' and request.FILES.get('excelFile'):
         excel_file = request.FILES['excelFile']
-        df = pd.read_excel(excel_file, sheet_name='Listing')
-        df['Remarks'] = ''
-        if 'Barcode' in df.columns:
-            duplicate_mask = df.duplicated(subset='Barcode', keep=False)
-            duplicate_rows = df[duplicate_mask].index
-            for row_num in duplicate_rows:
-                df.at[row_num, 'Barcode'] = ''
-                df.at[row_num, 'Remarks'] = f'Duplicate Barcode detected in row {row_num + 2}'
-
-        processed_file_name = 'processed_file.xls'
-        df.to_excel(f'quality_check/checking_data/{processed_file_name}', index=False)
+        processed_file_name = excel_file.name
         output_folder = os.path.join("quality_check", "checking_data")
-        output_path = os.path.join(output_folder, processed_file_name)
+        output_path = os.path.abspath(os.path.join(output_folder, processed_file_name))
+ 
+        with open(output_path, 'wb') as output_file:
+            for chunk in excel_file.chunks():
+                output_file.write(chunk)
+
+        wb = load_workbook(output_path)
+        sheet_name = "Listing"
+        if sheet_name in wb.sheetnames:
+            sheet = wb[sheet_name]
+            sheet.append(["Remarks", "Missing Headers"])
+            wb.save(output_path)
+        else:
+            print(f"Sheet '{sheet_name}' not found in the workbook.")
+
+        # df = pd.read_excel(excel_file, sheet_name='Listing')
+        # df['Remarks'] = ''
+        # if 'Barcode' in df.columns:
+        #     duplicate_mask = df.duplicated(subset='Barcode', keep=False)
+        #     duplicate_rows = df[duplicate_mask].index
+        #     for row_num in duplicate_rows:
+        #         df.at[row_num, 'Barcode'] = ''
+        #         df.at[row_num, 'Remarks'] = f'Duplicate Barcode detected in row {row_num + 2}'
+
+        # processed_file_name = 'processed_file.xls'
+        # df.to_excel(f'quality_check/checking_data/{processed_file_name}', index=False)
+        # output_folder = os.path.join("quality_check", "checking_data")
+        # output_path = os.path.join(output_folder, processed_file_name)
 
         return render(request, 'quality_check/qc_interface.html', {
                 'output_path': output_path.replace("\\", "/")

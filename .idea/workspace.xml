@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3f54c03-4827-482c-837d-0257e8911bf4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/centerpoint/centerpoint/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/centerpoint/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/centerpoint/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/centerpoint/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/Centerpoint_master_template/centrepoint_Template and attribute.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/mastertemplate/Centerpoint_master_template/centrepoint_Template and attribute.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/centerpoint/mastertemplate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/centerpoint/mastertemplate/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="b3f54c03-4827-482c-837d-0257e8911bf4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

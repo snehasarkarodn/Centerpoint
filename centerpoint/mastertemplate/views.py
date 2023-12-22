@@ -170,7 +170,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
 
         elif header.value == "Base Product ID":
             col_letter = get_column_letter(idx)
-            for r in range(2, 100):
+            for r in range(2, 3):
                 sheet[f"{col_letter}{r}"].value = f'=SUBSTITUTE(D{r}, " ", "")& "CP" & TEXT(TODAY(), "DD-MM-YYYY")'
         
         elif header.value == "Barcode":
@@ -225,7 +225,7 @@ def index(request):
     sheet = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
     merged_temp = pd.read_excel(sheet)
     dropdown_values = [i.strip() for i in merged_temp["Template Name"].unique()]
-
+    
     return render(request, 'mastertemplate/user_interface1.html', {'dropdown_values': dropdown_values})
 
 def main_func(request):
@@ -238,11 +238,11 @@ def main_func(request):
     selected_df = pd.DataFrame()
 
     if request.method == 'POST':
-        selected_values_str = request.POST.get('selected_values', '[]')
-        selected_values = json.loads(selected_values_str)
+        selected_values_str = request.POST.getlist('selected_items')
+        selected_values = selected_values_str[0]
 
         for selected_template in selected_values:
-            selected_rows = merged_temp[merged_temp["Template Name"].str.contains(selected_template)]
+            selected_rows = merged_temp[merged_temp["Template Name"].str.contains(selected_template, regex=False)]
             if not selected_rows.empty:
                 selected_df = pd.concat([selected_df, selected_rows], ignore_index=True)
 
