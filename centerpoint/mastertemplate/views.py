@@ -9,7 +9,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.styles import PatternFill
 from .models import ProcessedData
-
+import time 
 
 def process_english(english_string):
     unique_values = []
@@ -200,6 +200,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
             )
             sheet.conditional_formatting.add(f'{get_column_letter(barcode_col_idx)}{r}', rule)
 
+
     color_code_columns(sheet, selected_df, mandatory_fixed)
 
     wb.save(output_path)
@@ -229,6 +230,7 @@ def index(request):
     return render(request, 'mastertemplate/user_interface1.html', {'dropdown_values': dropdown_values})
 
 def main_func(request):
+    start =time.time()
     testdata = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
     merged_temp = pd.read_excel(testdata, sheet_name="Attribute and Values")
     template_dropdown = pd.read_excel(testdata, sheet_name="Template_dropdown_values")
@@ -253,7 +255,11 @@ def main_func(request):
         selected_df["Processed_English"] = selected_df["English"].apply(lambda x: process_english(x))
 
         output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values)
-  
+        
+        end =time.time()
+        tot_time = end-start
+        print(tot_time)
+
         if os.path.exists(output_path):
             return render(request, 'mastertemplate/user_interface1.html', {
                 'dropdown_values': dropdown_values,

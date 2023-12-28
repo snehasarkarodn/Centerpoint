@@ -434,6 +434,37 @@ background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
     width: 100%;
 }
 
+.fetch-data-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-Gap-sm, 16px);
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+
+  .para{
+    color: var(--Colors-Shades-0, #FFF);
+    font-family: DM Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .fetch-data-btn{
+    border-radius: var(--Spacing-Gap-sm, 16px);
+    border: 1px solid var(--Colors-Neutral-700, #333);
+    background: var(--Trans-Shades-100, rgba(0, 0, 0, 0.10));
+    padding: 16px 24px;
+    justify-content: center;
+    align-items: center;
+    color: var(--Colors-Shades-0, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+  }
+
 .history-text{
 color: var(--Colors-Shades-0, #FFF);
 font-family: DM Sans;
@@ -546,6 +577,10 @@ padding: 8px;
     font-weight: 400;
     line-height: 24px; /* 150% */
   }
+
+  
+
+
 
 
 
