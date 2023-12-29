@@ -1,0 +1,24 @@
+<!-- mastertemplate/user_interface1.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Sheet</title>
+</head>
+<body>
+    <form method="post" action="{% url 'update_sheet' %}">
+        {% csrf_token %}
+        <label for="sheet_id">Google Sheets ID:</label>
+        <input type="text" name="sheet_id" required>
+        <button type="submit">Update Sheet</button>
+    </form>
+
+    {% if response_text %}
+        <div>
+            <p>{{ response_text }}</p>
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -190,6 +190,8 @@ background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
 backdrop-filter: blur(4px);
 width: 70%;
 height: 300px;
+overflow: hidden;
+overflow-y: auto;
 }
 
 .dropdown-head-txt{
@@ -578,6 +580,39 @@ padding: 8px;
     line-height: 24px; /* 150% */
   }
 
+
+  .hidden-content {
+    display: none;
+    transition: display 0.3s ease-in-out;
+  }
+  
+  .view-collapse-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #3EB489;
+    align-items: center;
+    color: var(--colors-tertiary-700-main, #3EB489);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    border-radius: 0px 0px var(--Corner-Radius-xl, 32px) var(--Corner-Radius-xl, 32px);
+    background: var(--Trans-Success, rgba(62, 180, 137, 0.10));
+    padding: var(--Spacing-Padding-sm, 16px) 0px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .view-collapse-btn svg {
+    width: 25px;
+    height: 24px;
+    margin-right: 8px;
+  }
   
 
 

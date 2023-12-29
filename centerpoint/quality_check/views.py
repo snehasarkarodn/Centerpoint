@@ -9,10 +9,8 @@ from openpyxl.formatting.rule import FormulaRule
 from openpyxl.worksheet.cell_range import MultiCellRange
 from openpyxl.utils import get_column_letter
 import numpy as np
-
-
-def index(request):
-    return render(request, 'quality_check/qc_interface.html')
+from .models import QualityCheckRecord
+import time 
 
 def process_english(english_string):
     unique_values = []
@@ -38,8 +36,11 @@ def barcode_conditional_format(worksheet, max_rows):
                                                   
 def process_file(request):
     if request.method == 'POST' and request.FILES.get('excelFile'):
+        start=time.time()
         excel_file = request.FILES['excelFile']
         processed_file_name = excel_file.name
+        file_name_without_extension = processed_file_name.rsplit('.', 1)[0] 
+        unique_id = file_name_without_extension[-8:]
         output_folder = os.path.join("quality_check", "checking_data")
         output_path = os.path.abspath(os.path.join(output_folder, processed_file_name))
         output_path=output_path.replace('.xls','.xlsx')
@@ -48,6 +49,7 @@ def process_file(request):
                 destination.write(chunk)
         
         excel_data = pd.read_excel(output_path, sheet_name='Listing')
+        n_rows = excel_data.shape[0]
         excel_data['Remarks'] = ''
         file_path = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
         temp_file = pd.read_excel(file_path, sheet_name='Attribute and Values')
@@ -116,7 +118,6 @@ def process_file(request):
                         excel_data.at[_, 'Remarks'] += remark_text
 
                         found_cells.append((_ + 2, excel_data.columns.get_loc(field_name) + 1))
-        print(found_cells)
                             
         with pd.ExcelWriter(output_path, engine='openpyxl', mode='a') as writer:
             excel_data.to_excel(writer, sheet_name='FinalQC', index=False)
@@ -145,12 +146,26 @@ def process_file(request):
             cell.fill = fill_color
 
         workbook.save(output_path)
+        wb = openpyxl.load_workbook(output_path)
+        output_path=output_path.replace('.xlsx','.xls')
+        wb.save(output_path)
+
+        end=time.time()
+        tot_time = end-start
+
+        quality_check_data_instance = QualityCheckRecord.objects.create(
+        unique_id = unique_id,
+        file_path = output_path,
+        file_name = processed_file_name,
+        num_records = n_rows,
+        qc_processing_time = tot_time,
+        qc_done_by = "ODN"
+        )
 
         return render(request, 'quality_check/qc_interface.html', {
                 'output_path': output_path.replace("\\", "/")
             })
-
-    return JsonResponse({'error': 'Invalid request'})
+    return render(request, 'quality_check/qc_interface.html')
 
 def download_template(request, file_path):
     file_path = file_path.replace("/", "\\")

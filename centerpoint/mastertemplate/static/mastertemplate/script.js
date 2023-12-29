@@ -88,3 +88,6 @@ document.addEventListener("click", function(event) {
 document.getElementById('filterhistory').addEventListener('click', function() {
     this.classList.toggle('active');
     });
+
+
+    

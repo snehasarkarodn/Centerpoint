@@ -4,12 +4,12 @@ import pandas as pd
 import os
 import uuid
 import openpyxl
-import json
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.styles import PatternFill
-from .models import ProcessedData
+from .models import ProcessedData, SheetUpdate
 import time 
+from datetime import datetime
 
 def process_english(english_string):
     unique_values = []
@@ -51,7 +51,6 @@ def color_code_columns(sheet, selected_df, mandatory_fixed):
 
 def add_hidden_data_validation(sheet, col_idx, col_len, hidden_col_idx):
     dv = DataValidation(type="list", formula1=f'hidden_sheet!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${col_len + 1}')
-
     # Apply data validation to the entire column in the second row
     for r in range(2, 3):
         sheet.add_data_validation(dv)
@@ -60,7 +59,6 @@ def add_hidden_data_validation(sheet, col_idx, col_len, hidden_col_idx):
 
 def add_temp_data_validation(sheet, idx, max_temp_len, hidden_col_idx):
     dv = DataValidation(type="list", formula1=f'hidden_sheet1!${get_column_letter(hidden_col_idx)}$2:${get_column_letter(hidden_col_idx)}${max_temp_len + 1}')
-
     # Apply data validation to the entire column in the second row
     for r in range(2, 3):
         sheet.add_data_validation(dv)
@@ -73,7 +71,6 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
         'QAT': ['Price', 'Color Price', 'SKU Price', 'Concept Delivery'],
         'KWT': ['Price', 'Color Price', 'SKU Price', 'Concept Delivery']
     }
-
     col_suffixes = country_columns[country]
     if header_suffix not in col_suffixes:
         for r in range(2, 3):
@@ -82,6 +79,7 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
 
 
 def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values):
+    start =time.time()
     selected_sheet = "CP Content_Template"
     master_temp = pd.read_excel(testdata, sheet_name=selected_sheet)
     unique_id = str(uuid.uuid4())[:8]
@@ -200,37 +198,30 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
             )
             sheet.conditional_formatting.add(f'{get_column_letter(barcode_col_idx)}{r}', rule)
 
-
     color_code_columns(sheet, selected_df, mandatory_fixed)
 
     wb.save(output_path)
-
-
     wb = openpyxl.load_workbook(output_path)
     output_path=output_path.replace('.xlsx','.xls')
     wb.save(output_path)
+
+    end =time.time()
+    tot_time = end-start
 
     processed_data_instance = ProcessedData.objects.create(
         unique_id=unique_id,
         output_path=output_path,
         selected_values=selected_values,
         filename = f"{selected_sheet}_{unique_id}.xlsx",
-        created_by = "ODN"
-    )
+        created_by = "ODN",
+        duration_of_creation = (tot_time)
+        )
 
     return output_path
 
 
-
-def index(request):
-    sheet = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
-    merged_temp = pd.read_excel(sheet)
-    dropdown_values = [i.strip() for i in merged_temp["Template Name"].unique()]
-    
-    return render(request, 'mastertemplate/user_interface1.html', {'dropdown_values': dropdown_values})
-
 def main_func(request):
-    start =time.time()
+    data_records = ProcessedData.objects.all()
     testdata = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
     merged_temp = pd.read_excel(testdata, sheet_name="Attribute and Values")
     template_dropdown = pd.read_excel(testdata, sheet_name="Template_dropdown_values")
@@ -255,25 +246,20 @@ def main_func(request):
         selected_df["Processed_English"] = selected_df["English"].apply(lambda x: process_english(x))
 
         output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values)
-        
-        end =time.time()
-        tot_time = end-start
-        print(tot_time)
+
+        data_records = ProcessedData.objects.all()
 
         if os.path.exists(output_path):
             return render(request, 'mastertemplate/user_interface1.html', {
                 'dropdown_values': dropdown_values,
-                'output_path': output_path.replace("\\", "/")
+                'output_path': output_path.replace("\\", "/"),
+                'data_records': data_records
             })
         else:
             return HttpResponse("File not found.")
 
     # Render the initial form page
-    return render(request, 'your_app_name/your_template_name.html', {
-        # 'dropdown': dropdown,
-        # 'button': button,
-        # 'output': output
-    })
+    return render(request, 'mastertemplate/user_interface1.html', {'dropdown_values': dropdown_values, 'data_records': data_records})
 
 
 def download_template(request, file_path):
@@ -294,7 +280,9 @@ def download_template(request, file_path):
 
 def update_sheet(request):
     if request.method == 'POST':
+        start=time.time()
         sheet_id = request.POST.get('sheet_id', '')
+        ver_name=""
 
         # Load sheets from Google Sheets
         sheet = pd.ExcelFile(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx")
@@ -317,6 +305,13 @@ def update_sheet(request):
                     sheet2 = all_local_sheets[sheet_name]
 
                     if not sheet1.equals(sheet2):
+                        
+                        # Create a backup with timestamp
+                        wb = openpyxl.load_workbook(testdata)
+                        output_path=testdata.replace('centrepoint_Template and attribute.xlsx',f"CP_Temp&attr_backup_{datetime.now().strftime('%Y%m%d')}.xlsx")
+                        ver_name = f"CP_Temp&attr_backup_{datetime.now().strftime('%Y%m%d')}.xlsx"
+                        wb.save(output_path)
+
                         # Update the local sheet if there are differences
                         all_local_sheets[sheet_name] = sheet1
                         differences.append(f"Sheet '{sheet_name}' has been updated.")
@@ -331,6 +326,11 @@ def update_sheet(request):
         new_sheets = set(sheet.sheet_names) - set(all_local_sheets.keys())
         for new_sheet_name in new_sheets:
             all_local_sheets[new_sheet_name] = pd.read_excel(sheet, sheet_name=new_sheet_name)
+            wb = openpyxl.load_workbook(testdata)
+            output_path=testdata.replace('centrepoint_Template and attribute.xlsx',f"CP_Temp&attr_backup_{datetime.now().strftime('%Y%m%d')}.xlsx")
+            ver_name = f"CP_Temp&attr_backup_{datetime.now().strftime('%Y%m%d')}.xlsx"
+            wb.save(output_path)
+
             differences.append(f"New sheet '{new_sheet_name}' has been added to the local workbook.")
 
         # Write all sheets back to the local workbook
@@ -339,12 +339,18 @@ def update_sheet(request):
                 sheet_data.to_excel(writer, sheet_name=sheet_name, index=False)
 
         response_text = "\n".join(differences)
-        return render(request, 'mastertemplate/user_interface1.html', {'response_text': response_text})
+        end=time.time()
+        tot_time = end-start
 
-    return HttpResponse("Invalid request method.")
+        if ver_name != "":
+            updatesheet_data_instance = SheetUpdate.objects.create(
+            file_version=ver_name,
+            edited_by="ODN",
+            file_path=output_path,
+            duration_of_update = (tot_time)
+            )
+        else:
+            pass
+        return render(request, 'mastertemplate/update_sheet.html', {'response_text': response_text})
 
-
-def display_data(request):
-    data_records = ProcessedData.objects.all()
-    return render(request, 'mastertemplate/user_interface1.html', {'data_records': data_records})
-   
+    return render(request, 'mastertemplate/update_sheet.html')
