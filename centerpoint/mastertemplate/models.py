@@ -16,6 +16,8 @@ class SheetUpdate(models.Model):
     last_edit_date = models.DateTimeField(auto_now=True)
     duration_of_update = models.IntegerField(null=True, blank=True)
     file_path = models.CharField(max_length=255)
-
+    workbook_id = models.CharField(max_length=100, null=True)  # New field
+    edited_sheets = models.CharField(max_length=255, null=True)  # New field
     def __str__(self):
         return f"{self.file_version} - {self.edited_by}"
+

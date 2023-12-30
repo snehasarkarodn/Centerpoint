@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Processing</title>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Centerpoint</title>
+        <link rel="stylesheet" href="static/quality_check/style.css">
+        <link rel="icon" type="image/x-icon" href="static/quality_check/Img/ODN-New-Logo.png">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      </head>
+<!-- <body>
     <h1>Quality Check</h1>
     <form id="uploadForm" enctype="multipart/form-data" method="post" action="{% url 'process_file' %}">
         {% csrf_token %}
@@ -19,5 +26,364 @@
             <button>Download Template</button>
         </a>
     {% endif %}
+</body> -->
+<body>
+    <div class="Centerpoint-wrapper">
+        <div class="row">
+            <div class="col-lg-2  position-fixed ">
+                <div class="sidebar-wrapper">
+
+                    <div class="sidebar-firstdiv">
+                        <div class="magic-template-logo">
+                            <img src="static/quality_check/Img/logo.svg" alt="Logo">
+                        </div>
+                        <div class="template-btn-div">
+                            <div class="buttonDiv">
+                                <button class="templatebtn1" id="templateBtn1" onclick="redirectTotemplate()">
+                                    <div>
+                                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path id="templatesvg1" d="M21.4347 5.83097L15.8097 0.205969C15.6778 0.0740625 15.499 0 15.3125 0H4.0625C3.67419 0 3.35938 0.314812 3.35938 0.703125V23.2969C3.35938 23.6852 3.67419 24 4.0625 24H20.9375C21.3258 24 21.6406 23.6852 21.6406 23.2969V6.32812C21.6406 6.14161 21.5666 5.96278 21.4347 5.83097ZM19.24 5.625H16.0156V2.40061L19.24 5.625ZM4.76562 22.5938V1.40625H14.6094V6.32812C14.6094 6.71644 14.9242 7.03125 15.3125 7.03125H20.2344V22.5938H4.76562Z" fill="#808080"/>
+                                        <path d="M17.1875 10.3125H7.8125C7.42419 10.3125 7.10938 10.6273 7.10938 11.0156V19.4531C7.10938 19.8414 7.42419 20.1562 7.8125 20.1562H17.1875C17.5758 20.1562 17.8906 19.8414 17.8906 19.4531V11.0156C17.8906 10.6273 17.5758 10.3125 17.1875 10.3125ZM8.51562 14.5312H11.7969V15.9375H8.51562V14.5312ZM13.2031 14.5312H16.4844V15.9375H13.2031V14.5312ZM16.4844 13.125H13.2031V11.7188H16.4844V13.125ZM11.7969 11.7188V13.125H8.51562V11.7188H11.7969ZM8.51562 17.3438H11.7969V18.75H8.51562V17.3438ZM13.2031 18.75V17.3438H16.4844V18.75H13.2031Z" fill="#808080"/>
+                                    </svg>   
+                                    </div> 
+                                    <p class="templatetext">Create template</p>                                    
+                                </button>
+                            </div>
+                            <div class="buttonDiv">
+                                <a class="templatebtn1" href="{% url 'process_file' %}" style="text-decoration: none;">
+                                <button class="templatebtn1" id="templateBtn2">
+                                    <div>
+                                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path id="templatesvg2" d="M11.999 4.50743C7.73525 4.50743 4.26642 7.97626 4.26642 12.24C4.26642 16.5037 7.73525 19.9726 11.999 19.9726C16.2627 19.9726 19.7315 16.5037 19.7315 12.24C19.7315 7.97626 16.2628 4.50743 11.999 4.50743ZM11.999 18.5666C8.51047 18.5666 5.67234 15.7285 5.67234 12.24C5.67234 8.75148 8.51047 5.91335 11.999 5.91335C15.4875 5.91335 18.3256 8.75148 18.3256 12.24C18.3256 15.7285 15.4875 18.5666 11.999 18.5666Z" fill="#808080"/>
+                                            <path d="M15.0167 9.63403L11.296 13.3547L8.98121 11.0399C8.70673 10.7654 8.26162 10.7654 7.98709 11.0399C7.71256 11.3145 7.71256 11.7595 7.98709 12.0341L10.7989 14.8459C10.9362 14.9832 11.1161 15.0518 11.296 15.0518C11.4758 15.0518 11.6558 14.9832 11.793 14.8459L16.0108 10.6282C16.2853 10.3536 16.2853 9.90856 16.0108 9.63403C15.7363 9.3595 15.2912 9.3595 15.0167 9.63403Z" fill="#808080"/>
+                                            <path id="templatesvg2" d="M22.9934 7.31131C22.9911 7.30985 20.5382 5.8416 20.5382 5.8416L19.9876 3.5613C19.7433 2.54945 18.8129 1.87316 17.7749 1.95367L14.9797 2.17C14.9797 2.17 13.3696 0.748985 13.3665 0.746314C12.5741 0.0713784 11.4238 0.0713784 10.6314 0.746314C10.6283 0.748985 9.01813 2.17 9.01813 2.17L6.22297 1.95367C5.19332 1.87372 4.27005 2.53821 4.01652 3.53608L3.25001 5.97845C3.25001 5.97845 1.00958 7.30948 1.00663 7.31131C0.119824 7.85634 -0.235639 8.95028 0.161486 9.91249L1.11789 12.2302L0.161486 14.5478C-0.235639 15.51 0.119824 16.6039 1.00668 17.149C1.0094 17.1506 3.45748 18.6093 3.45748 18.6093L4.01038 20.899C4.24151 21.8564 5.08685 22.5131 6.05628 22.5131C6.20455 22.5131 6.038 22.5187 8.98912 22.2925C8.98912 22.2925 10.6288 23.7314 10.6315 23.7336C11.0277 24.0711 11.5133 24.2399 11.999 24.2399C12.4847 24.2399 12.9704 24.0711 13.3665 23.7336C13.3692 23.7314 15.0089 22.2925 15.0089 22.2925L17.775 22.5066C18.8126 22.5868 19.7434 21.9108 19.9876 20.899L20.5382 18.6186C23.5397 16.8219 22.9033 17.2045 22.9934 17.1489C23.8802 16.6039 24.2357 15.5099 23.8385 14.5477L22.8821 12.2301L23.8385 9.9124C24.2356 8.95028 23.8802 7.85638 22.9934 7.31131ZM21.4718 12.4983L22.5389 15.0841C22.6709 15.4038 22.5536 15.7672 22.2601 15.9495L19.5631 17.5639C19.4012 17.6608 19.2851 17.8186 19.2408 18.002L18.6209 20.5691C18.5395 20.9063 18.2299 21.1316 17.8834 21.1049L14.8221 20.868C14.6335 20.8534 14.4465 20.9156 14.3042 21.0405L12.4515 22.6663C12.1886 22.8875 11.8094 22.8875 11.5464 22.6662L9.69386 21.0405C9.55149 20.9156 9.36441 20.8533 9.17597 20.868L6.11462 21.1049C5.76844 21.1316 5.45848 20.9063 5.37708 20.569L4.75477 17.9919C4.71039 17.808 4.59374 17.6498 4.43127 17.553L1.73944 15.949C1.44636 15.7667 1.32929 15.4036 1.46117 15.0841L2.52826 12.4983C2.59916 12.3265 2.59916 12.1337 2.52826 11.962L1.46103 9.37613C1.32924 9.0568 1.44617 8.69394 1.73893 8.51145L4.19929 7.04981C4.34813 6.96137 4.4591 6.82116 4.51094 6.65596C5.41766 3.76506 5.36649 3.93475 5.37698 3.89122C5.45839 3.55398 5.7675 3.32838 6.11453 3.35537L9.20615 3.59466C9.39585 3.60928 9.58303 3.54658 9.72554 3.42084L11.5471 1.81322C11.8096 1.59268 12.1881 1.59268 12.4507 1.81313L14.2723 3.42084C14.4148 3.54667 14.6025 3.60928 14.7917 3.59466L17.8834 3.35537C18.2292 3.32866 18.5395 3.55394 18.6209 3.89126L19.2408 6.45829C19.2851 6.64167 19.4012 6.79955 19.563 6.89647L22.26 8.51084C22.5535 8.69309 22.6709 9.05643 22.5389 9.37613L21.4718 11.962C21.4009 12.1338 21.4009 12.3266 21.4718 12.4983Z" fill="#808080"/>
+                                        </svg>   
+                                    </div>                                         
+                                    <p class="templatetext">Quality Check</p>                                    
+                                </button>
+                                </a>
+                            </div>
+                            <div class="buttonDiv">
+                                <button class="templatebtn1" id="templateBtn3" onclick="redirectToUpdateSheet()">
+                                    <div>
+                                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path id="templatesvg3" d="M2.19463 24.034C2.46917 24.3086 2.91439 24.3087 3.18898 24.034L12.4824 14.7406L12.6288 15.9681C12.6628 16.2536 12.8673 16.4896 13.145 16.564C13.4221 16.6383 13.7174 16.5367 13.89 16.3061L16.2383 13.1671L19.8416 14.7114C20.1061 14.8246 20.4125 14.7655 20.6158 14.5623C20.8191 14.359 20.8781 14.0524 20.7649 13.7881L19.2206 10.1848L22.3597 7.83647C22.5899 7.66425 22.6921 7.36917 22.6177 7.09149C22.5432 6.81376 22.3073 6.60933 22.0217 6.5753L18.1291 6.11106L17.6648 2.21839C17.6308 1.93288 17.4263 1.69691 17.1486 1.62247C16.8708 1.54804 16.5758 1.65022 16.4036 1.88042L14.0552 5.01944L10.452 3.47515C10.1876 3.36185 9.88105 3.42096 9.6778 3.62426C9.47451 3.82755 9.41545 4.13416 9.5287 4.39839L11.073 8.00165L7.93392 10.35C7.70372 10.5222 7.60153 10.8173 7.67592 11.095C7.75036 11.3727 7.98633 11.5772 8.27184 11.6112L9.4993 11.7576L0.205874 21.051C-0.0685309 21.3253 -0.0687183 21.7708 0.205874 22.0453L2.19463 24.034ZM12.3583 8.79623C12.6183 8.60179 12.7113 8.25464 12.5834 7.95623L11.5137 5.46011L14.0098 6.52988C14.3081 6.65776 14.6553 6.56476 14.8498 6.30479L16.4766 4.13027L16.7982 6.82688C16.8366 7.14919 17.0907 7.40335 17.4131 7.44178L20.1096 7.76339L17.9351 9.39022C17.6751 9.58466 17.5821 9.93182 17.71 10.2302L18.7798 12.7263L16.2836 11.6566C15.9852 11.5286 15.6381 11.6217 15.4436 11.8817L13.8168 14.0561L13.4953 11.3596C13.4568 11.0372 13.2027 10.7831 12.8804 10.7447L10.1838 10.4231L12.3583 8.79623ZM11.276 11.9695L12.1645 12.0754L12.2704 12.9639L2.69178 22.5425L1.69738 21.5482L11.276 11.9695Z" fill="#808080"/>
+                                            <path d="M20.6157 2.62985L19.6214 3.62421C19.3468 3.89881 19.3468 4.34398 19.6214 4.61857C19.8959 4.89317 20.3411 4.89317 20.6157 4.61857L21.6101 3.62421C21.8847 3.34962 21.8847 2.90445 21.6101 2.62985C21.3355 2.35526 20.8903 2.35526 20.6157 2.62985Z" fill="#808080"/>
+                                            <path d="M12.7809 0.264083C12.4058 0.364583 12.1833 0.75013 12.2838 1.12522L12.6478 2.48357C12.748 2.85763 13.1329 3.08155 13.5089 2.98072C13.884 2.88022 14.1066 2.49468 14.0061 2.11958L13.6421 0.76124C13.5416 0.386146 13.1561 0.163677 12.7809 0.264083Z" fill="#808080"/>
+                                            <path d="M16.7845 15.2057C16.4094 15.3062 16.1869 15.6917 16.2874 16.0668L16.6514 17.4252C16.7518 17.7998 17.1371 18.0231 17.5125 17.9223C17.8876 17.8218 18.1102 17.4363 18.0097 17.0612L17.6457 15.7028C17.5452 15.3277 17.1597 15.1052 16.7845 15.2057Z" fill="#808080"/>
+                                            <path d="M7.17873 6.2303C6.80415 6.1298 6.41809 6.35236 6.31759 6.72745C6.21709 7.10255 6.4397 7.48809 6.81479 7.58859L8.17313 7.95253C8.54912 8.05331 8.93401 7.82949 9.03427 7.45533C9.13477 7.08024 8.91216 6.69469 8.53707 6.59419L7.17873 6.2303Z" fill="#808080"/>
+                                            <path d="M23.4787 10.5978L22.1204 10.2338C21.7455 10.1334 21.3597 10.3559 21.2592 10.731C21.1587 11.1061 21.3812 11.4916 21.7563 11.5921L23.1147 11.9561C23.4913 12.0571 23.8758 11.8324 23.9759 11.4589C24.0764 11.0839 23.8538 10.6983 23.4787 10.5978Z" fill="#808080"/>
+                                        </svg>  
+                                    </div>                                          
+                                    <p class="templatetext">Update Template</p>                                    
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-seconddiv">
+                        <div class="centerpointlogodiv">
+                            <button class="centerpointlogobtn">
+                                <img src="static/quality_check/Img/centrepoint-grey 1.svg" alt="">
+                            </button>
+                        </div>
+
+                        <div class="centerpointlogodiv">
+                            <button class="centerpointlogobtn">
+                                <img src="static/quality_check/Img/centrepoint-grey 1.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-10 offset-lg-2 ">
+                <div class="main-content-div">
+                    <div class="secondTabdiv">
+
+                        <div class="create-template-Time-Div">
+                            <div class="create-temp-bott-text">
+                                <p class="create-temp-text">Create template</p>
+                                <p class="create-bottom-text">Let's embark on a journey of magic</p>
+                            </div>
+                            <div class="time-div">
+                                <img id="sun-svg" src="static/quality_check/Img/day.svg" alt="Day Logo">
+                                <img id="moon-svg" src="static/quality_check/Img/night.svg" alt="Night Logo">
+                                <h1 id="current-time"></h1>                      
+                            </div>
+                        </div>
+                        
+                        <div class="category-and-xls-wrapper">
+                            <div class="select-category-div">
+                                <div class="select-dropdown">
+                                    <p class="dropdown-head-txt">Select categories</p>
+                                    <form id="myForm" method="post" action="{% url 'main_func' %}">
+                                        {% csrf_token %}
+                                        <div class="dropdown" id="dropdown">
+                                            <div class="select-box" onclick="toggleDropdown()">
+                                                <p class="select-item-txt">Select items</p> 
+                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 6L8 10L12 6" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>                                                
+                                            </div>
+                                            <div class="dropdown-content" id="dropdownContent">
+                                                {% for option in dropdown_values %}
+                                                    <div class="dropdown-content-item">
+                                                        <input type="checkbox" name="items" id="item{{ forloop.counter }}" value="{{ option }}" onchange="handleCheckboxChange(this)">
+                                                        <label for="item{{ forloop.counter }}">{{ option }}</label>
+                                                    </div>
+                                                 {% endfor %}
+                                            </div>
+                                            <div class="selected-items" id="selectedItems">
+
+                                            </div>
+                                        </div>    
+                                    </form>
+                                </div>
+                                <div class="create-btn-div">
+                                    <div class="button-wrapper">
+                                        <button class="create-template" onclick="submitForm()">Create template</button>
+                                        {% if output_path %}
+                                        <a href="{% url 'download_template' file_path=output_path %}" style="text-decoration: none;">
+                                            <button class="Donload-temp-btn">
+                                                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M11.0023 14.6098H0.997585C0.613661 14.6098 0.30249 14.921 0.30249 15.3049C0.30249 15.6888 0.613661 16 0.997585 16H11.0023C11.3862 16 11.6974 15.6888 11.6974 15.3049C11.6974 14.921 11.3862 14.6098 11.0023 14.6098Z" fill="#108157"/>
+                                                    <path d="M5.50849 12.5996C5.64418 12.7353 5.82213 12.8032 5.99999 12.8032C6.17786 12.8032 6.35573 12.7353 6.4915 12.5996L9.60653 9.48457C9.87801 9.2131 9.87801 8.77303 9.60653 8.50155C9.33514 8.23008 8.89499 8.23008 8.62351 8.50155L6.69501 10.43V0.695095C6.69501 0.311171 6.38384 0 5.99992 0C5.61599 0 5.30482 0.311171 5.30482 0.695095V10.4301L3.37632 8.50163C3.10485 8.23008 2.66478 8.23016 2.3933 8.50163C2.12183 8.7731 2.12183 9.21318 2.3933 9.48465L5.50849 12.5996Z" fill="white"/>
+                                                </svg>                                                
+                                                <p class="download-btn-txt">Download</p>
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+          
+                                    {% if output_path %}
+                                        <div class="template-create-div">
+                                            <p class="template-create-txt">Template created</p>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_278_476)">
+                                                <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#108157"/>
+                                                <path d="M9 12L11 14L15 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>`
+                                                <defs>
+                                                <clipPath id="clip0_278_476">
+                                                <rect width="24" height="24" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>                                            
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="xls-div">
+                                <img class="xls-logo" src="static/quality_check/Img/xls1.png" alt="xls logo">
+                                <div class="upload-and-download-div">
+                                    <div class="upload-Download">
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_b_278_761)">
+                                            <path d="M0 8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V24C32 28.4183 28.4183 32 24 32H8C3.58172 32 0 28.4183 0 24V8Z" fill="black" fill-opacity="0.1"/>
+                                            <path d="M0.5 8C0.5 3.85786 3.85786 0.5 8 0.5H24C28.1421 0.5 31.5 3.85786 31.5 8V24C31.5 28.1421 28.1421 31.5 24 31.5H8C3.85786 31.5 0.5 28.1421 0.5 24V8Z" stroke="#333333"/>
+                                            <g clip-path="url(#clip0_278_761)">
+                                            <path d="M22.0935 17.8466C22.0935 17.8456 22.0937 17.8447 22.0937 17.8437V15.9687C22.0937 15.7098 21.8838 15.5 21.6249 15.5H19.2812V10.8125H20.6875C20.9463 10.8125 21.1562 10.6026 21.1562 10.3437V9.40624C21.1562 8.63084 20.5254 8 19.75 8H14.125C13.3496 8 12.7187 8.63084 12.7187 9.40624V15.5H10.375C10.1161 15.5 9.90627 15.7098 9.90627 15.9687C9.9063 16.3008 9.90614 17.8114 9.90642 17.8466C9.90761 18.0393 10.0271 18.2097 10.2009 18.2789L14.5937 20.0361V22.5937C14.5937 22.7741 14.701 22.9373 14.8529 23.0129C16.7689 23.9516 16.7405 24 16.9371 24C17.1961 24 17.4062 23.7887 17.4062 23.5312V20.0361C17.8015 19.8779 21.7628 18.2935 21.8018 18.2777C21.9767 18.2063 22.0924 18.0359 22.0935 17.8466ZM20.2187 9.87499H19.2812V9.40624C19.2812 9.14777 19.4915 8.93749 19.75 8.93749C20.0084 8.93749 20.2187 9.14777 20.2187 9.40624V9.87499ZM13.6562 9.40624C13.6562 9.14777 13.8665 8.93749 14.125 8.93749H18.4243C18.3723 9.08421 18.3437 9.24193 18.3437 9.40624V15.5H13.6562V9.40624ZM21.1562 16.4375V17.5263C20.761 17.6844 16.7996 19.2689 16.7607 19.2847C16.5824 19.3574 16.4687 19.5311 16.4687 19.7187V22.7727L15.5312 22.3039C15.5312 21.7256 15.5314 19.7508 15.5311 19.7157C15.5299 19.5209 15.4081 19.3518 15.2366 19.2834L10.8438 17.5263V16.4375H21.1562Z" fill="white"/>
+                                            <path d="M15.0625 10.8125H16.9375C17.1964 10.8125 17.4063 10.6026 17.4063 10.3437C17.4063 10.0849 17.1964 9.87498 16.9375 9.87498H15.0625C14.8036 9.87498 14.5938 10.0849 14.5938 10.3437C14.5938 10.6026 14.8036 10.8125 15.0625 10.8125Z" fill="#108157"/>
+                                            <path d="M16.9375 11.75H15.0625C14.8036 11.75 14.5938 11.9599 14.5938 12.2187C14.5938 12.4776 14.8036 12.6875 15.0625 12.6875H16.9375C17.1964 12.6875 17.4063 12.4776 17.4063 12.2187C17.4063 11.9599 17.1964 11.75 16.9375 11.75Z" fill="#108157"/>
+                                            <path d="M16.9375 13.625H15.0625C14.8036 13.625 14.5938 13.8348 14.5938 14.0937C14.5938 14.3526 14.8036 14.5625 15.0625 14.5625H16.9375C17.1964 14.5625 17.4063 14.3526 17.4063 14.0937C17.4063 13.8348 17.1964 13.625 16.9375 13.625Z" fill="#108157"/>
+                                            <path d="M11.3125 14.5625C11.5714 14.5625 11.7812 14.3526 11.7812 14.0937V12.2187C11.7812 11.9599 11.5714 11.75 11.3125 11.75C11.0536 11.75 10.8438 11.9599 10.8438 12.2187V14.0937C10.8438 14.3526 11.0536 14.5625 11.3125 14.5625Z" fill="#108157"/>
+                                            <path d="M20.6875 11.75C20.4286 11.75 20.2188 11.9599 20.2188 12.2187V14.0937C20.2188 14.3526 20.4286 14.5625 20.6875 14.5625C20.9464 14.5625 21.1562 14.3526 21.1562 14.0937V12.2187C21.1562 11.9599 20.9464 11.75 20.6875 11.75Z" fill="#108157"/>
+                                            </g>
+                                            </g>
+                                            <defs>
+                                            <filter id="filter0_b_278_761" x="-8" y="-8" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feGaussianBlur in="BackgroundImageFix" stdDeviation="4"/>
+                                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_278_761"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_278_761" result="shape"/>
+                                            </filter>
+                                            <clipPath id="clip0_278_761">
+                                            <rect width="16" height="16" fill="white" transform="translate(8 8)"/>
+                                            </clipPath>
+                                            </defs>
+                                            </svg>                                            
+                                        <p class="number">03</p>
+                                    </div>
+                                    <div class="upload-Download">
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_b_278_747)">
+                                            <path d="M0 8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V24C32 28.4183 28.4183 32 24 32H8C3.58172 32 0 28.4183 0 24V8Z" fill="black" fill-opacity="0.1"/>
+                                            <path d="M0.5 8C0.5 3.85786 3.85786 0.5 8 0.5H24C28.1421 0.5 31.5 3.85786 31.5 8V24C31.5 28.1421 28.1421 31.5 24 31.5H8C3.85786 31.5 0.5 28.1421 0.5 24V8Z" stroke="#333333"/>
+                                            <path d="M21.0023 22.6098H10.9976C10.6137 22.6098 10.3025 22.921 10.3025 23.3049C10.3025 23.6888 10.6137 24 10.9976 24H21.0023C21.3862 24 21.6974 23.6888 21.6974 23.3049C21.6974 22.921 21.3862 22.6098 21.0023 22.6098Z" fill="#108157"/>
+                                            <path d="M15.5085 20.5996C15.6442 20.7353 15.8221 20.8032 16 20.8032C16.1779 20.8032 16.3557 20.7353 16.4915 20.5996L19.6065 17.4846C19.878 17.2131 19.878 16.773 19.6065 16.5016C19.3351 16.2301 18.895 16.2301 18.6235 16.5016L16.695 18.43V8.6951C16.695 8.31117 16.3838 8 15.9999 8C15.616 8 15.3048 8.31117 15.3048 8.6951V18.4301L13.3763 16.5016C13.1048 16.2301 12.6648 16.2302 12.3933 16.5016C12.1218 16.7731 12.1218 17.2132 12.3933 17.4846L15.5085 20.5996Z" fill="white"/>
+                                            </g>
+                                            <defs>
+                                            <filter id="filter0_b_278_747" x="-8" y="-8" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feGaussianBlur in="BackgroundImageFix" stdDeviation="4"/>
+                                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_278_747"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_278_747" result="shape"/>
+                                            </filter>
+                                            </defs>
+                                        </svg>                                            
+                                        <p class="number">11</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="history-div-wrapper">
+                            <div class="history-search-filter-wrapper">
+                                <p class="history-text">History</p>
+                            </div>
+                            {% for record in data_records reversed %}
+                                <div class="category-date-wrappper {% if forloop.counter > 3 %}hidden-content{% endif %}">
+                                    <div class="date-wrapper">
+                                        <div class="date-time-div">
+                                            <div class="date-time-content-div">
+                                                <p class="head-text">Date:</p>
+                                                <p class="head-text-result">{{ record.created_on|date:"d/m/Y" }}</p>
+                                            </div>
+                                            <div class="date-time-content-div">
+                                                <p class="head-text">Time taken:</p>
+                                                <p class="head-text-result">{{ record.duration_of_creation }} sec.</p>
+                                            </div>
+                                            <div class="date-time-content-div">
+                                                <p class="head-text">Created by:</p>
+                                                <p class="head-text-result">{{ record.created_by }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="category-sheetname-div">
+                                        <div class="number-div">{{ forloop.counter }}</div>
+                                        <div class="cate-sheet-div">
+                                            <p class="category-sheet-head">Selected categories</p>
+                                            <p class="category-sheet-content">{{ record.selected_values }}</p>
+                                        </div>
+                                        <div class="cate-sheet-div">
+                                            <p class="category-sheet-head">Sheet name</p>
+                                            <p class="category-sheet-content">{{ record.filename }}</p>
+                                        </div>
+                                        <a href="{% url 'download_template' file_path=record.output_path %}" style="text-decoration: none;">
+                                        <button class="download-btn">
+                                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="white"/>
+                                                <path d="M25.0023 26.6098H14.9976C14.6137 26.6098 14.3025 26.921 14.3025 27.3049C14.3025 27.6888 14.6137 28 14.9976 28H25.0023C25.3862 28 25.6974 27.6888 25.6974 27.3049C25.6974 26.921 25.3862 26.6098 25.0023 26.6098Z" fill="#108157"/>
+                                                <path d="M19.5085 24.5996C19.6442 24.7353 19.8221 24.8032 20 24.8032C20.1779 24.8032 20.3557 24.7353 20.4915 24.5996L23.6065 21.4846C23.878 21.2131 23.878 20.773 23.6065 20.5016C23.3351 20.2301 22.895 20.2301 22.6235 20.5016L20.695 22.43V12.6951C20.695 12.3112 20.3838 12 19.9999 12C19.616 12 19.3048 12.3112 19.3048 12.6951V22.4301L17.3763 20.5016C17.1048 20.2301 16.6648 20.2302 16.3933 20.5016C16.1218 20.7731 16.1218 21.2132 16.3933 21.4846L19.5085 24.5996Z" fill="#0F0F0F"/>
+                                            </svg>                                              
+                                        </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <button class="view-collapse-btn" id="viewAllBtn">
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_434_443)">
+                                    <path d="M16.5 4H20.5V8" stroke="#3EB489" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M14.5 10L20.5 4" stroke="#3EB489" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8.5 20H4.5V16" stroke="#3EB489" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4.5 20L10.5 14" stroke="#3EB489" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_434_443">
+                                    <rect width="24" height="24" fill="white" transform="translate(0.5)"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>        
+                                <span>View All</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+                
+                </div>
+        </div>
+    </div>
+    
+    <script src="static/quality_check/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        function submitForm() {
+            // Get selected values
+            var selectedValues = [];
+            var checkboxes = document.getElementsByName("items");
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    selectedValues.push(checkbox.value);
+                }
+            });
+    
+            // Add the selected values to a hidden input field in the form
+            var hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "selected_items";
+            hiddenInput.value = JSON.stringify(selectedValues);
+            document.getElementById("myForm").appendChild(hiddenInput);
+    
+            // Submit the form
+            document.getElementById("myForm").submit();
+        }
+      
+    </script>
+    
+    <script> 
+        // Initialize Select2
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({
+                tags: true,
+                tokenSeparators: [',', ' '],
+            });
+        });
+
+        // Update the hidden input with selected values before form submission
+        document.querySelector('form').addEventListener('submit', function () {
+            var selectedValues = $('#dropdown_values').val();
+            document.getElementById('selected_values').value = JSON.stringify(selectedValues);
+        });
+
+        // Function to update the text box
+        function updateText() {
+            var newText = $('#updateText').val();
+            // Do something with the updated text, for example, display it in an alert
+            alert('Updated Text: ' + newText);
+        }
+    </script>
+
+    <script>
+        function redirectToUpdateSheet() {
+            // Redirect to update_sheet.html
+            window.location.href = "{% url 'update_sheet' %}";
+        }
+        function redirectTotemplate() {
+            // Redirect to update_sheet.html
+            window.location.href = "{% url 'main_func' %}";
+        }
+    </script>
+
+    <script>
+        var viewAllBtn = document.getElementById('viewAllBtn');
+        var hiddenContent = document.querySelectorAll('.hidden-content');
+        var isExpanded = false;
+
+        viewAllBtn.addEventListener('click', function() {
+        hiddenContent.forEach(function(element) {
+            element.style.display = isExpanded ? 'none' : 'block';
+        });
+        viewAllBtn.querySelector('span').textContent = isExpanded ? 'View All' : 'Collapse';
+        isExpanded = !isExpanded;
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var viewAllBtn = document.getElementById("viewAllBtn");
+            var hiddenContent = document.querySelectorAll(".hidden-content");
+    
+            viewAllBtn.addEventListener("click", function() {
+                hiddenContent.forEach(function(element) {
+                    element.classList.toggle("hidden-content");
+                });
+            });
+        });
+    </script>
 </body>
 </html>

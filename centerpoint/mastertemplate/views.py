@@ -277,11 +277,30 @@ def download_template(request, file_path):
             return response
     except Exception as e:
         return HttpResponseServerError("An error occurred while processing the request")
+    
+
+def download_latest_sheet(request):
+    file_path = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
+    file_name = os.path.basename(file_path)
+    if not file_path:
+        return HttpResponseNotFound("File path is missing")
+    if not os.path.isfile(file_path):
+        return HttpResponseNotFound("File not found")
+    try:
+        with open(file_path, 'rb') as file:
+            response = HttpResponse(file.read(),
+                                    content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+            return response
+    except Exception as e:
+        return HttpResponseServerError("An error occurred while processing the request")
 
 def update_sheet(request):
+    data_records = SheetUpdate.objects.all()
     if request.method == 'POST':
         start=time.time()
         sheet_id = request.POST.get('sheet_id', '')
+        print(sheet_id)
         ver_name=""
 
         # Load sheets from Google Sheets
@@ -297,6 +316,9 @@ def update_sheet(request):
 
         # Check for differences
         differences = []
+        sheets_name = []
+        output_path =""
+
         for sheet_name in testdata_sheets:
             if sheet_name in sheet.sheet_names:
                 sheet1 = pd.read_excel(sheet, sheet_name=sheet_name)
@@ -315,6 +337,7 @@ def update_sheet(request):
                         # Update the local sheet if there are differences
                         all_local_sheets[sheet_name] = sheet1
                         differences.append(f"Sheet '{sheet_name}' has been updated.")
+                        sheets_name.append(sheet_name)
                     else:
                         differences.append(f"No changes required for sheet '{sheet_name}'.")
                 else:
@@ -330,7 +353,7 @@ def update_sheet(request):
             output_path=testdata.replace('centrepoint_Template and attribute.xlsx',f"CP_Temp&attr_backup_{datetime.now().strftime('%Y%m%d')}.xlsx")
             ver_name = f"CP_Temp&attr_backup_{datetime.now().strftime('%Y%m%d')}.xlsx"
             wb.save(output_path)
-
+            sheets_name.append(new_sheet_name)
             differences.append(f"New sheet '{new_sheet_name}' has been added to the local workbook.")
 
         # Write all sheets back to the local workbook
@@ -344,13 +367,20 @@ def update_sheet(request):
 
         if ver_name != "":
             updatesheet_data_instance = SheetUpdate.objects.create(
-            file_version=ver_name,
-            edited_by="ODN",
-            file_path=output_path,
-            duration_of_update = (tot_time)
+            file_version = ver_name,
+            edited_by = "ODN",
+            file_path = output_path,
+            duration_of_update = (tot_time),
+            workbook_id = sheet_id,
+            edited_sheets = sheets_name
             )
         else:
             pass
-        return render(request, 'mastertemplate/update_sheet.html', {'response_text': response_text})
+        data_records = SheetUpdate.objects.all()
 
-    return render(request, 'mastertemplate/update_sheet.html')
+        if output_path != "":
+            return render(request, 'mastertemplate/update_sheet.html', {'response_text': response_text, 'data_records': data_records, 'output_path':output_path})
+        else:
+            return render(request, 'mastertemplate/update_sheet.html', {'response_text': response_text, 'data_records': data_records})
+
+    return render(request, 'mastertemplate/update_sheet.html', {'data_records': data_records})

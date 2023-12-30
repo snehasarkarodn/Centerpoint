@@ -12,88 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
-<!-- <body>
-<div class="container">
- <div class="row">
-    <div class="col-lg-6-left-half">
-        <h1>Download Templates</h1>
-        <form method="post" action="{% url 'main_func' %}">
-            {% csrf_token %}
-            <label for="dropdown_values">Select Categories(s):</label>
-            <select id="dropdown_values" name="dropdown_values" multiple="multiple" class="js-example-basic-multiple">
-                {% for option in dropdown_values %}
-                <option value="{{ option }}">{{ option }}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="selected_values" id="selected_values" value="" />
-            <button type="submit">Submit</button>
-        </form>
-        <div style="margin-top: 10px;">
-        {% if output_path %}
-        <a href="{% url 'download_template' file_path=output_path %}" download>
-            <button>Download Template</button>
-        </a>
-        {% endif %}
-        </div>
-    </div>
-
-    <div class="col-lg-6-right-half">
-        <h1>Update Template Sheets</h1>
-        <form method="post" action="{% url 'update_sheet' %}">
-            {% csrf_token %}
-            <label for="updateText">Enter Sheet ID:</label>
-            <input type="text" id="updateText" name="sheet_id" />
-            <button type="submit">Update</button>
-        </form>
-        {% if response_text %}
-        <div>
-            <h3>Update Result:</h3>
-            <p>{{ response_text }}</p>
-        </div>
-        {% endif %}
-    </div>
-</div>
-    <div class="row">
-       <div id="data-table" class="col-lg-12-full-width">
-        <h1>Data Table</h1>
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Unique ID</th>
-                    <th>Output Path</th>
-                    <th>Selected Values</th>
-                    <th>File Name</th>
-                    <th>Created By</th>
-                    <th>Created On</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in data_records %}
-                    <tr>
-                        <td>{{ forloop.counter }}
-                        <td>{{ record.unique_id }}</td>
-                        <td>{{ record.output_path }}</td>
-                        <td>{{ record.selected_values }}</td>
-                        <td>{{ record.filename }}</td>
-                        <td>{{ record.created_by }}</td>
-                        <td>{{ record.created_on }}</td>
-                        <td>
-                            {% if record.output_path %}
-                                <a href="{% url 'download_template' file_path=record.output_path %}" download>
-                                    <button>Download</button>
-                                </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-    </div>-->
-
 <body>
     <div class="Centerpoint-wrapper">
         <div class="row">
@@ -299,7 +217,7 @@
                             <div class="history-search-filter-wrapper">
                                 <p class="history-text">History</p>
                             </div>
-                            {% for record in data_records %}
+                            {% for record in data_records reversed %}
                                 <div class="category-date-wrappper {% if forloop.counter > 3 %}hidden-content{% endif %}">
                                     <div class="date-wrapper">
                                         <div class="date-time-div">

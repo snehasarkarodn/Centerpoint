@@ -172,7 +172,7 @@ gap: var(--Spacing-Gap-xxs, 8px);
 border-radius: var(--Spacing-Gap-xs, 12px);
 background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
 backdrop-filter: blur(4px);
-width: 142px;
+width: 150px;
 }
 
 .category-and-xls-wrapper{
@@ -190,6 +190,8 @@ background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
 backdrop-filter: blur(4px);
 width: 70%;
 height: 300px;
+overflow: hidden;
+overflow-y: auto;
 }
 
 .dropdown-head-txt{
@@ -425,7 +427,7 @@ flex-shrink: 0;
 align-self: stretch;
 border-radius: var(--Corner-Radius-xl, 32px);
 background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
-backdrop-filter: blur(4px);
+/* backdrop-filter: blur(4px); */
 }
 
 .history-search-filter-wrapper{
@@ -433,6 +435,37 @@ backdrop-filter: blur(4px);
     justify-content: space-between;
     width: 100%;
 }
+
+.fetch-data-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-Gap-sm, 16px);
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+
+  .para{
+    color: var(--Colors-Shades-0, #FFF);
+    font-family: DM Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .fetch-data-btn{
+    border-radius: var(--Spacing-Gap-sm, 16px);
+    border: 1px solid var(--Colors-Neutral-700, #333);
+    background: var(--Trans-Shades-100, rgba(0, 0, 0, 0.10));
+    padding: 16px 24px;
+    justify-content: center;
+    align-items: center;
+    color: var(--Colors-Shades-0, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+  }
 
 .history-text{
 color: var(--Colors-Shades-0, #FFF);
@@ -546,6 +579,43 @@ padding: 8px;
     font-weight: 400;
     line-height: 24px; /* 150% */
   }
+
+
+  .hidden-content {
+    display: none;
+    transition: display 0.3s ease-in-out;
+  }
+  
+  .view-collapse-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #3EB489;
+    align-items: center;
+    color: var(--colors-tertiary-700-main, #3EB489);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    border-radius: 0px 0px var(--Corner-Radius-xl, 32px) var(--Corner-Radius-xl, 32px);
+    background: var(--Trans-Success, rgba(62, 180, 137, 0.10));
+    padding: var(--Spacing-Padding-sm, 16px) 0px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .view-collapse-btn svg {
+    width: 25px;
+    height: 24px;
+    margin-right: 8px;
+  }
+  
+
+
 
 
 

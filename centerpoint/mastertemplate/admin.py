@@ -8,6 +8,7 @@ admin.site.register(ProcessedData,ProcessedDataAdmin)
 
 
 class SheetUpdateAdmin(admin.ModelAdmin):
-    list_display = ('file_version' ,'edited_by' ,'last_edit_date' ,'duration_of_update' ,'file_path')
+    list_display = ('file_version' ,'edited_by' ,'last_edit_date' ,
+                    'duration_of_update' ,'file_path','workbook_id','edited_sheets')
 
 admin.site.register(SheetUpdate,SheetUpdateAdmin)
