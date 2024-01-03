@@ -673,7 +673,7 @@ padding: 8px;
     padding: var(--Corner-Radius-sm, 8px) var(--Spacing-Padding-sm, 16px);
     align-items: flex-start;
     gap: var(--Spacing-Gap-md, 24px);
-    width: 50%;
+    width: 60%;
   }
   
   .category-sheetname-div {
