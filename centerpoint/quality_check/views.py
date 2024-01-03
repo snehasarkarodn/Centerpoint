@@ -35,6 +35,7 @@ def barcode_conditional_format(worksheet, max_rows):
     worksheet.conditional_formatting.add(f'{column_letter}2:AX{max_rows}', FormulaRule(formula=[f'COUNTIF(${column_letter}$2:${column_letter}${max_rows}, {column_letter}2)>1'], fill=duplicate_style.fill))
                                                   
 def process_file(request):
+    data_records = QualityCheckRecord.objects.all()
     if request.method == 'POST' and request.FILES.get('excelFile'):
         start=time.time()
         excel_file = request.FILES['excelFile']
@@ -161,11 +162,12 @@ def process_file(request):
         qc_processing_time = tot_time,
         qc_done_by = "ODN"
         )
-
+        data_records = QualityCheckRecord.objects.all()
         return render(request, 'quality_check/qc_interface.html', {
-                'output_path': output_path.replace("\\", "/")
+                'output_path': output_path.replace("\\", "/"),
+                'data_records': data_records
             })
-    return render(request, 'quality_check/qc_interface.html')
+    return render(request, 'quality_check/qc_interface.html', {'data_records': data_records})
 
 def download_template(request, file_path):
     file_path = file_path.replace("/", "\\")

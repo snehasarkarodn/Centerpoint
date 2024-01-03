@@ -121,9 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'mastertemplate/static/'
+STATIC_QUALITY_URL = 'quality_check/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'mastertemplate/static'),
-                    os.path.join(BASE_DIR, 'quality_check/static'),]
+                    os.path.join(BASE_DIR, 'quality_check/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type

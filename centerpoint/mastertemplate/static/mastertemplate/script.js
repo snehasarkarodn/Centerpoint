@@ -90,4 +90,25 @@ document.getElementById('filterhistory').addEventListener('click', function() {
     });
 
 
+    function openFileInput() {
+        document.getElementById('fileInput').click();
+        showUploadedFileInterface();
+    }
+    
+    function showUploadedFileInterface() {
+        document.querySelector('.upload-file-interface').style.display = 'none';
+        document.querySelector('.uploaded-file-interface').style.display = 'flex';
+        document.querySelector('.analyze-button').style.display = 'flex';
+    
+        const sheetName = "Sheet1";  
+        document.getElementById('selectedFileName').textContent = sheetName;
+        document.getElementById('sheetName').textContent = "Sheet: " + sheetName;
+    }
+    
+    function cutFileInterface() {
+        document.querySelector('.upload-file-interface').style.display = 'flex';
+        document.querySelector('.uploaded-file-interface').style.display = 'none';
+        document.querySelector('.analyze-button').style.display = 'none';
+    }
+
     
