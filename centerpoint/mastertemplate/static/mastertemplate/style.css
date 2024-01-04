@@ -172,7 +172,7 @@ gap: var(--Spacing-Gap-xxs, 8px);
 border-radius: var(--Spacing-Gap-xs, 12px);
 background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
 backdrop-filter: blur(4px);
-width: 150px;
+width: 160px;
 }
 
 .category-and-xls-wrapper{
@@ -192,6 +192,18 @@ width: 70%;
 height: 300px;
 overflow: hidden;
 overflow-y: auto;
+}
+
+.select-category-div1{
+  display: flex;
+padding: var(--Spacing-Gap-md, 24px);
+flex-direction: column;
+justify-content: space-between;
+border-radius: var(--Corner-Radius-xl, 32px);
+background: var(--Trans-Shades-0, rgba(255, 255, 255, 0.06));
+backdrop-filter: blur(4px);
+width: 70%;
+height: 300px;
 }
 
 .dropdown-head-txt{
@@ -868,7 +880,7 @@ padding: 8px;
     gap: 16px;
   }
   
-  .analyze-button {
+  /* .analyze-button {
     padding: 16px;
     background: #FFF300;
     border-radius: 16px;
@@ -876,7 +888,7 @@ padding: 8px;
     justify-content: center;
     align-items: center;
     gap: 8px;
-  }
+  } */
   
   .file-uploaded-icon-div{
     border-radius: 24px;

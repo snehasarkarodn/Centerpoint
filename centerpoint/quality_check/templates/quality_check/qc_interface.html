@@ -1,39 +1,23 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Centerpoint</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'mastertemplate/style.css' %}"> 
-        <link rel="icon" type="image/x-icon" href="static/mastertemplate/Img/ODN-New-Logo.png">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&display=swap" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-      </head>
-<!-- <body>
-    <h1>Quality Check</h1>
-    <form id="uploadForm" enctype="multipart/form-data" method="post" action="{% url 'process_file' %}">
-        {% csrf_token %}
-        <input type="file" name="excelFile" accept=".xls, .xlsx" required />
-        <button type="submit">Submit</button>
-    </form>
-    
-    <div style="margin-top: 10px;"></div>
-    {% if output_path %}
-        <a href="{% url 'download_template' file_path=output_path %}" download>
-            <button>Download Template</button>
-        </a>
-    {% endif %}
-</body> -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Centerpoint</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'mastertemplate/style.css' %}"> 
+    <link rel="icon" type="image/x-icon" href="static/mastertemplate/Img/ODN-New-Logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100;0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;0,9..40,1000;1,9..40,100;1,9..40,200;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700;1,9..40,800;1,9..40,900;1,9..40,1000&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
 <body>
     <div class="Centerpoint-wrapper">
         <div class="row">
             <div class="col-lg-2  position-fixed ">
                 <div class="sidebar-wrapper">
-
                     <div class="sidebar-firstdiv">
                         <div class="magic-template-logo">
                             <img src="static/mastertemplate/Img/logo.svg" alt="Logo">
@@ -81,7 +65,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="sidebar-seconddiv">
                         <div class="centerpointlogodiv">
                             <button class="centerpointlogobtn">
@@ -95,14 +78,12 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <div class="col-lg-10 offset-lg-2 ">
                 <div class="main-content-div">
                     <div class="secondTabdiv">
-
                         <div class="create-template-Time-Div">
                             <div class="create-temp-bott-text">
                                 <p class="create-temp-text">Quality Check</p>
@@ -114,71 +95,76 @@
                                 <h1 id="current-time"></h1>                      
                             </div>
                         </div>
-                        
                         <div class="category-and-xls-wrapper">
-                            <div class="select-category-div upload-container">
-                                <div class="select-dropdown upload-file-interface">
-                                    <p class="dropdown-head-txt">Upload file</p>
-                                    <div class="upload-file-drag-div">
-                                        <div class="upload-file-content-div">
-                                                <svg width="65" height="64" viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M32 64C49.6731 64 64 49.6731 64 32C64 26.8 62.7597 21.8897 60.5588 17.5489C58.803 19.0756 56.5095 20 54 20C48.4772 20 44 15.5228 44 10C44 7.49054 44.9244 5.19697 46.4511 3.44121C42.1103 1.2403 37.2 0 32 0C14.3269 0 0 14.3269 0 32C0 49.6731 14.3269 64 32 64Z" fill="black" fill-opacity="0.1"/>
-                                                    <path d="M46.5331 20.4614H35.9615V23.9045H39.4589V26.248H35.9615V28.5383H39.4231V30.846H35.9615V33.1537H39.4231V35.4614H35.9615V37.7691H39.4231V40.0768H35.9615V43.5383H46.5331C47.065 43.5383 47.5 43.0872 47.5 42.5345V21.4653C47.5 20.9126 47.065 20.4614 46.5331 20.4614ZM45.1923 40.0768H40.5769V37.7691H45.1923V40.0768ZM45.1923 35.4614H40.5769V33.1537H45.1923V35.4614ZM45.1923 30.846H40.5769V28.5383H45.1923V30.846ZM45.1923 26.2307H40.5769V23.923H45.1923V26.2307Z" fill="white"/>
-                                                    <path d="M17.5 20.3335V43.6677L34.8077 47V17L17.5 20.3335ZM28.4477 37.8615L26.4342 34.055C26.3581 33.9131 26.2796 33.6523 26.1977 33.2727H26.1665C26.1285 33.4515 26.0385 33.7238 25.8965 34.0885L23.8762 37.8615H20.7388L24.4635 32.0185L21.0562 26.1742H24.2592L25.93 29.6785C26.0604 29.9554 26.1769 30.2842 26.2808 30.6638H26.3131C26.3788 30.4354 26.5012 30.0962 26.68 29.645L28.5377 26.1731H31.4708L27.9665 31.9677L31.5688 37.8604L28.4477 37.8615Z" fill="#108157"/>
-                                                    <rect x="46" y="2" width="16" height="16" rx="8" fill="white"/>
-                                                    <g clip-path="url(#clip0_391_2284)">
-                                                    <path d="M51.3333 9.77151L54.0808 7.33341L56.6667 9.77151M54.0808 12.6667L54.0808 7.42508" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                                                    </g>
-                                                    <defs>
-                                                    <clipPath id="clip0_391_2284">
-                                                    <rect width="8" height="8" fill="white" transform="translate(50 6)"/>
-                                                    </clipPath>
-                                                    </defs>
-                                                </svg> 
-                                                <div class="drop-file-txt-div">
-                                                    <input type="file" id="fileInput" style="display: none;" onchange="updateSheetName()">
-                                                    <p class="drop-file-txt">Drop your file here, or <span class="browse-txt" onclick="openFileInput()">Browse</span></p>
-                                                    <p class="support-format-txt">Supported formats: .xls</p>
-                                                </div>                                                                                                                                             
+                            <form id="uploadForm" method="post" enctype="multipart/form-data" action="{% url 'process_file' %}">
+                                {% csrf_token %}
+                                <div class="select-category-div1 upload-container" style="width: 630px;">
+                                    <div class="select-dropdown upload-file-interface">
+                                        <p class="dropdown-head-txt">Upload file</p>
+                                        <div class="upload-file-drag-div">
+                                            <div class="upload-file-content-div">
+                                                    <svg width="65" height="64" viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M32 64C49.6731 64 64 49.6731 64 32C64 26.8 62.7597 21.8897 60.5588 17.5489C58.803 19.0756 56.5095 20 54 20C48.4772 20 44 15.5228 44 10C44 7.49054 44.9244 5.19697 46.4511 3.44121C42.1103 1.2403 37.2 0 32 0C14.3269 0 0 14.3269 0 32C0 49.6731 14.3269 64 32 64Z" fill="black" fill-opacity="0.1"/>
+                                                        <path d="M46.5331 20.4614H35.9615V23.9045H39.4589V26.248H35.9615V28.5383H39.4231V30.846H35.9615V33.1537H39.4231V35.4614H35.9615V37.7691H39.4231V40.0768H35.9615V43.5383H46.5331C47.065 43.5383 47.5 43.0872 47.5 42.5345V21.4653C47.5 20.9126 47.065 20.4614 46.5331 20.4614ZM45.1923 40.0768H40.5769V37.7691H45.1923V40.0768ZM45.1923 35.4614H40.5769V33.1537H45.1923V35.4614ZM45.1923 30.846H40.5769V28.5383H45.1923V30.846ZM45.1923 26.2307H40.5769V23.923H45.1923V26.2307Z" fill="white"/>
+                                                        <path d="M17.5 20.3335V43.6677L34.8077 47V17L17.5 20.3335ZM28.4477 37.8615L26.4342 34.055C26.3581 33.9131 26.2796 33.6523 26.1977 33.2727H26.1665C26.1285 33.4515 26.0385 33.7238 25.8965 34.0885L23.8762 37.8615H20.7388L24.4635 32.0185L21.0562 26.1742H24.2592L25.93 29.6785C26.0604 29.9554 26.1769 30.2842 26.2808 30.6638H26.3131C26.3788 30.4354 26.5012 30.0962 26.68 29.645L28.5377 26.1731H31.4708L27.9665 31.9677L31.5688 37.8604L28.4477 37.8615Z" fill="#108157"/>
+                                                        <rect x="46" y="2" width="16" height="16" rx="8" fill="white"/>
+                                                        <g clip-path="url(#clip0_391_2284)">
+                                                        <path d="M51.3333 9.77151L54.0808 7.33341L56.6667 9.77151M54.0808 12.6667L54.0808 7.42508" stroke="#0F0F0F" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_391_2284">
+                                                        <rect width="8" height="8" fill="white" transform="translate(50 6)"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg> 
+                                                    <div class="drop-file-txt-div">
+                                                        <input type="file" id="fileInput" name="excelFile" accept=".xlsx, .xls" style="display: none;" onchange="updateSheetName()">
+                                                        <p class="drop-file-txt">Select your file <span class="browse-txt" onclick="openFileInput()">Browse</span></p>
+                                                        <p class="support-format-txt">Supported formats: .xls</p>
+                                                    </div>                                                                                                                                             
+                                            </div>
+                                        </div>
+                                        <p class="file-guide-txt">You can upload only 1 file at a time.</p>
+                                    </div>
+                                    
+                                    <div class="uploaded-file-interface " style="display: none; width: 100%;">
+                                        <div class="file-uploaded-wrapper">
+                                            <p class="dropdown-head-txt">Uploaded file</p>
+                                            <div class="file-uploaded-icon-div">
+                                            <div class="uploaded-file-info">
+                                                <div class="file-icon">
+                                                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M0 32C0 14.3269 14.3269 0 32 0C49.6731 0 64 14.3269 64 32C64 49.6731 49.6731 64 32 64C14.3269 64 0 49.6731 0 32Z" fill="#3EB489" fill-opacity="0.1"/>
+                                                        <path d="M46.0331 20.4614H35.4615V23.9045H38.9589V26.248H35.4615V28.5383H38.9231V30.846H35.4615V33.1537H38.9231V35.4614H35.4615V37.7691H38.9231V40.0768H35.4615V43.5383H46.0331C46.565 43.5383 47 43.0872 47 42.5345V21.4653C47 20.9126 46.565 20.4614 46.0331 20.4614ZM44.6923 40.0768H40.0769V37.7691H44.6923V40.0768ZM44.6923 35.4614H40.0769V33.1537H44.6923V35.4614ZM44.6923 30.846H40.0769V28.5383H44.6923V30.846ZM44.6923 26.2307H40.0769V23.923H44.6923V26.2307Z" fill="white"/>
+                                                        <path d="M17 20.3335V43.6677L34.3077 47V17L17 20.3335ZM27.9477 37.8615L25.9342 34.055C25.8581 33.9131 25.7796 33.6523 25.6977 33.2727H25.6665C25.6285 33.4515 25.5385 33.7238 25.3965 34.0885L23.3762 37.8615H20.2388L23.9635 32.0185L20.5562 26.1742H23.7592L25.43 29.6785C25.5604 29.9554 25.6769 30.2842 25.7808 30.6638H25.8131C25.8788 30.4354 26.0012 30.0962 26.18 29.645L28.0377 26.1731H30.9708L27.4665 31.9677L31.0688 37.8604L27.9477 37.8615Z" fill="#108157"/>
+                                                    </svg>                                                
+                                                </div>
+                                                <div class="file-details">
+                                                    <div class="file-name" id="selectedFileName">Sheetname.xlsx</div>
+                                                    <div id="sheetName" style="color: yellow;"></div>
+                                                    <input type="file" id="fileInput" style="display: none;">
+                                                    <div class="file-updated">Please select your file.</div>
+                                                </div>
+                                            </div>
+                                            <div class="cut-button" onclick="cutFileInterface()">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M18 6L6 18" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M6 6L18 18" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>                                            
+                                            </div>
+                                        </div>
                                         </div>
                                     </div>
-                                    <p class="file-guide-txt">You can upload only 1 file at a time.</p>
-                                </div>
+
+
+                                    <div class="create-btn-div analyze-button" style="display: none; justify-content: space-between;width: 100%;">
+                                        <div class="button-wrapper">
+                                            <button class="create-template" onclick="analyseData()">Analyse data</button>
+                                        </div>
+                                    </div>
                                 
-                                <div class="uploaded-file-interface " style="display: none; width: 100%;">
-                                    <div class="file-uploaded-wrapper">
-                                        <p class="dropdown-head-txt">Uploaded file</p>
-                                        <div class="file-uploaded-icon-div">
-                                        <div class="uploaded-file-info">
-                                            <div class="file-icon">
-                                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M0 32C0 14.3269 14.3269 0 32 0C49.6731 0 64 14.3269 64 32C64 49.6731 49.6731 64 32 64C14.3269 64 0 49.6731 0 32Z" fill="#3EB489" fill-opacity="0.1"/>
-                                                    <path d="M46.0331 20.4614H35.4615V23.9045H38.9589V26.248H35.4615V28.5383H38.9231V30.846H35.4615V33.1537H38.9231V35.4614H35.4615V37.7691H38.9231V40.0768H35.4615V43.5383H46.0331C46.565 43.5383 47 43.0872 47 42.5345V21.4653C47 20.9126 46.565 20.4614 46.0331 20.4614ZM44.6923 40.0768H40.0769V37.7691H44.6923V40.0768ZM44.6923 35.4614H40.0769V33.1537H44.6923V35.4614ZM44.6923 30.846H40.0769V28.5383H44.6923V30.846ZM44.6923 26.2307H40.0769V23.923H44.6923V26.2307Z" fill="white"/>
-                                                    <path d="M17 20.3335V43.6677L34.3077 47V17L17 20.3335ZM27.9477 37.8615L25.9342 34.055C25.8581 33.9131 25.7796 33.6523 25.6977 33.2727H25.6665C25.6285 33.4515 25.5385 33.7238 25.3965 34.0885L23.3762 37.8615H20.2388L23.9635 32.0185L20.5562 26.1742H23.7592L25.43 29.6785C25.5604 29.9554 25.6769 30.2842 25.7808 30.6638H25.8131C25.8788 30.4354 26.0012 30.0962 26.18 29.645L28.0377 26.1731H30.9708L27.4665 31.9677L31.0688 37.8604L27.9477 37.8615Z" fill="#108157"/>
-                                                </svg>                                                
-                                            </div>
-                                            <div class="file-details">
-                                                <div class="file-name" id="selectedFileName">Sheetname.xlsx</div>
-                                                <div id="sheetName"></div>
-                                                <input type="file" id="fileInput" style="display: none;">
-                                                <div class="file-updated">Updated: 2 min ago</div>
-                                            </div>
-                                        </div>
-                                        <div class="cut-button" onclick="cutFileInterface()">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M18 6L6 18" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M6 6L18 18" stroke="#808080" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>                                            
-                                        </div>
-                                      </div>
-                                    </div>
                                 </div>
-                        
-                                <div class="analyze-button" style="display: none;">
-                                    <div class="analyze-text">Analyse Data</div>
-                                </div>
-                              
-                            </div>
+                            </form>
                             <div class="xls-div">
                                 <img class="xls-logo" src="static/mastertemplate/Img/xls1.png" alt="xls logo">
                                 <div class="upload-and-download-div">
@@ -300,62 +286,58 @@
                             </button>
 
                         </div>
-
                     </div>
-                </div>
-                
-                </div>
+                </div>  
+            </div>
         </div>
     </div>
     
     <script src="{% static 'mastertemplate/script.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+   
     <script>
+        function analyseData() {
+            // Assuming you have a JavaScript function to handle the file submission
+            var form = document.getElementById('uploadForm');
+            form.submit();
+        }
+    </script>
+   
+   <script>
         function submitForm() {
-            // Get selected values
-            var selectedValues = [];
-            var checkboxes = document.getElementsByName("items");
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    selectedValues.push(checkbox.value);
-                }
-            });
-    
-            // Add the selected values to a hidden input field in the form
-            var hiddenInput = document.createElement("input");
-            hiddenInput.type = "hidden";
-            hiddenInput.name = "selected_items";
-            hiddenInput.value = JSON.stringify(selectedValues);
-            document.getElementById("myForm").appendChild(hiddenInput);
+            // Check if a file is selected
+            var fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert("Please select a file.");
+                return false;
+            }
     
             // Submit the form
-            document.getElementById("myForm").submit();
+            document.getElementById('myForm').submit();
+            return true;
         }
-      
+    
+        function analyzeData() {
+            // Add logic to show loading spinner or any UI indication during file processing
+    
+            // Assuming you have a backend endpoint that returns the processing status and output_path
+            // Fetch this information and update the UI accordingly
+    
+            fetch("{% url 'process_file' %}")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'completed') {
+                        // Update UI when processing is completed
+                        document.querySelector('.uploaded-file-interface').style.display = 'block';
+                        document.querySelector('.analyze-button').style.display = 'flex';
+                        document.querySelector('.template-create-txt').innerText = 'QC Completed';
+                    }
+                })
+                .catch(error => console.error('Error checking processing status:', error));
+        }
     </script>
     
-    <script> 
-        // Initialize Select2
-        $(document).ready(function () {
-            $('.js-example-basic-multiple').select2({
-                tags: true,
-                tokenSeparators: [',', ' '],
-            });
-        });
-
-        // Update the hidden input with selected values before form submission
-        document.querySelector('form').addEventListener('submit', function () {
-            var selectedValues = $('#dropdown_values').val();
-            document.getElementById('selected_values').value = JSON.stringify(selectedValues);
-        });
-
-        // Function to update the text box
-        function updateText() {
-            var newText = $('#updateText').val();
-            // Do something with the updated text, for example, display it in an alert
-            alert('Updated Text: ' + newText);
-        }
-    </script>
 
     <script>
         function redirectToUpdateSheet() {
@@ -397,8 +379,52 @@
         function updateSheetName() {
             var fileInput = document.getElementById("fileInput");
             var selectedFileName = fileInput.files[0].name;
-            document.getElementById("sheetName").innerText = "Workbook: " + selectedFileName;
+            document.getElementById("sheetName").innerText = selectedFileName;
         }
     </script>
+    <!-- <script>
+        function analyzeData() {
+            // Get the file input element
+            var fileInput = document.getElementById('fileInput');
+    
+            // Check if a file is selected
+            if (fileInput.files.length > 0) {
+                // Create FormData object to send file data
+                var formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+    
+                var csrftoken = getCookie('csrftoken');
+                $.ajaxSetup({
+                    headers: { "X-CSRFToken": csrftoken }
+                });
+                // Make an AJAX request using jQuery
+                $.ajax({
+                    url: 'process_file',  // Update the URL to your Django view
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                });
+            } else {
+                // Display an error message if no file is selected
+                alert('Please select a file before clicking Analyse Data.');
+            }
+        }
+
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    </script> -->
 </body>
 </html>

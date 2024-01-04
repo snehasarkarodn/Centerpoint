@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -218,7 +219,7 @@
                                 <p class="history-text">History</p>
                             </div>
                             {% for record in data_records reversed %}
-                                <div class="category-date-wrappper {% if forloop.counter > 3 %}hidden-content{% endif %}">
+                                <div class="category-date-wrappper hidden-content">
                                     <div class="date-wrapper">
                                         <div class="date-time-div">
                                             <div class="date-time-content-div">
@@ -240,7 +241,7 @@
                                         <div class="number-div">{{ forloop.counter }}</div>
                                         <div class="cate-sheet-div">
                                             <p class="category-sheet-head">Selected categories</p>
-                                            <p class="category-sheet-content">{{ record.selected_values }}</p>
+                                            <p class="category-sheet-content">{{ record.selected_values|extract_categories }}</p>
                                         </div>
                                         <div class="cate-sheet-div">
                                             <p class="category-sheet-head">Sheet name</p>
@@ -273,7 +274,7 @@
                                     </clipPath>
                                     </defs>
                                 </svg>        
-                                <span>View All</span>
+                                <span>View History</span>
                             </button>
 
                         </div>
@@ -344,32 +345,24 @@
             window.location.href = "{% url 'main_func' %}";
         }
     </script>
-
     <script>
-        var viewAllBtn = document.getElementById('viewAllBtn');
-        var hiddenContent = document.querySelectorAll('.hidden-content');
-        var isExpanded = false;
-
-        viewAllBtn.addEventListener('click', function() {
-        hiddenContent.forEach(function(element) {
-            element.style.display = isExpanded ? 'none' : 'block';
-        });
-        viewAllBtn.querySelector('span').textContent = isExpanded ? 'View All' : 'Collapse';
-        isExpanded = !isExpanded;
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var viewAllBtn = document.getElementById("viewAllBtn");
             var hiddenContent = document.querySelectorAll(".hidden-content");
+            hiddenContent.forEach(function (element) {
+                element.classList.add("hidden-content");
+            });
     
-            viewAllBtn.addEventListener("click", function() {
-                hiddenContent.forEach(function(element) {
+            viewAllBtn.addEventListener("click", function () {
+                hiddenContent.forEach(function (element) {
                     element.classList.toggle("hidden-content");
                 });
+                var buttonText = viewAllBtn.querySelector("span");
+                buttonText.textContent = buttonText.textContent === "View History" ? "Collapse" : "View History";
             });
         });
     </script>
+    
 </body>
 
 </html>

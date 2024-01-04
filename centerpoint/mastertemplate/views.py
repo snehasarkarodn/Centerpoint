@@ -82,9 +82,10 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     start =time.time()
     selected_sheet = "CP Content_Template"
     master_temp = pd.read_excel(testdata, sheet_name=selected_sheet)
-    unique_id = str(uuid.uuid4())[:8]
+    id = str(uuid.uuid4())[:8]
+    unique_id = f"ODNCP_{datetime.now().strftime('%d%m%y')}_{id}"
     output_folder = os.path.join("mastertemplate", "stored_data")
-    output_path = os.path.join(output_folder, f"{selected_sheet}_{unique_id}.xlsx")
+    output_path = os.path.join(output_folder, f"{selected_sheet}_{id}.xlsx")
     with pd.ExcelWriter(output_path, engine='xlsxwriter') as writer:
         master_temp.to_excel(writer, sheet_name="Listing", index=False)
 
@@ -212,7 +213,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
         unique_id=unique_id,
         output_path=output_path,
         selected_values=selected_values,
-        filename = f"{selected_sheet}_{unique_id}.xlsx",
+        filename = f"{selected_sheet}_{id}.xlsx",
         created_by = "ODN",
         duration_of_creation = (tot_time)
         )

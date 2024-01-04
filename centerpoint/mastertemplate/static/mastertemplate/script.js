@@ -100,9 +100,9 @@ document.getElementById('filterhistory').addEventListener('click', function() {
         document.querySelector('.uploaded-file-interface').style.display = 'flex';
         document.querySelector('.analyze-button').style.display = 'flex';
     
-        const sheetName = "Sheet1";  
+        const sheetName = "Workbook";  
         document.getElementById('selectedFileName').textContent = sheetName;
-        document.getElementById('sheetName').textContent = "Sheet: " + sheetName;
+        document.getElementById('sheetName').textContent = sheetName;
     }
     
     function cutFileInterface() {

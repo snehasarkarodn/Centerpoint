@@ -11,6 +11,7 @@ from openpyxl.utils import get_column_letter
 import numpy as np
 from .models import QualityCheckRecord
 import time 
+from datetime import datetime
 
 def process_english(english_string):
     unique_values = []
@@ -41,7 +42,8 @@ def process_file(request):
         excel_file = request.FILES['excelFile']
         processed_file_name = excel_file.name
         file_name_without_extension = processed_file_name.rsplit('.', 1)[0] 
-        unique_id = file_name_without_extension[-8:]
+        id = file_name_without_extension[-8:]
+        unique_id = f"ODNCP_{datetime.now().strftime('%d%m%y')}_{id}"
         output_folder = os.path.join("quality_check", "checking_data")
         output_path = os.path.abspath(os.path.join(output_folder, processed_file_name))
         output_path=output_path.replace('.xls','.xlsx')
@@ -163,11 +165,11 @@ def process_file(request):
         qc_done_by = "ODN"
         )
         data_records = QualityCheckRecord.objects.all()
-        return render(request, 'quality_check/qc_interface.html', {
+        return render(request, 'quality_check/qc_interface.html', {  #'quality_check/qc_interface.html'
                 'output_path': output_path.replace("\\", "/"),
                 'data_records': data_records
             })
-    return render(request, 'quality_check/qc_interface.html', {'data_records': data_records})
+    return render(request, 'quality_check/qc_interface.html', {'data_records': data_records})  # 'quality_check/qc_interface.html'
 
 def download_template(request, file_path):
     file_path = file_path.replace("/", "\\")

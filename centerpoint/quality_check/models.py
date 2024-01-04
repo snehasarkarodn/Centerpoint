@@ -11,3 +11,4 @@ class QualityCheckRecord(models.Model):
 
     def __str__(self):
         return f"QualityCheckRecord - {self.unique_id}"
+
