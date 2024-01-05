@@ -78,7 +78,7 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
 
 
 
-def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values):
+def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values, guide_df):
     start =time.time()
     selected_sheet = "CP Content_Template"
     master_temp = pd.read_excel(testdata, sheet_name=selected_sheet)
@@ -97,6 +97,14 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
 
     hidden_sheet1 = wb.create_sheet("hidden_sheet1")
     hidden_sheet1.sheet_state = "hidden"
+
+    guide_sheet =wb.create_sheet("Guidelines")
+    guide_data = guide_df.values.tolist()
+
+    for row_index, row_data in enumerate(guide_data):
+        for col_index, value in enumerate(row_data):
+            guide_sheet.cell(row=row_index + 1, column=col_index + 1, value=value)
+
 
     processed_english_df = pd.DataFrame()
     max_length = 0
@@ -227,9 +235,11 @@ def main_func(request):
     merged_temp = pd.read_excel(testdata, sheet_name="Attribute and Values")
     template_dropdown = pd.read_excel(testdata, sheet_name="Template_dropdown_values")
     mandatory_fixed = pd.read_excel(testdata, sheet_name="Template_Mandatory")
+    guidelines = pd.read_excel(testdata, sheet_name="Guidelines")
 
     dropdown_values = [i.strip() for i in merged_temp["Template Name"].unique()]
     selected_df = pd.DataFrame()
+    guide_df = pd.DataFrame()
 
     if request.method == 'POST':
         selected_values_str = request.POST.getlist('selected_items')
@@ -237,8 +247,11 @@ def main_func(request):
 
         for selected_template in selected_values:
             selected_rows = merged_temp[merged_temp["Template Name"].str.contains(selected_template, regex=False)]
+            guide_row=guidelines[guidelines["Template Name"].str.contains(selected_template, regex=False)]
             if not selected_rows.empty:
                 selected_df = pd.concat([selected_df, selected_rows], ignore_index=True)
+            if not guide_row.empty:
+                guide_df = pd.concat([selected_df, selected_rows], ignore_index=True)
 
         selected_df.drop(columns=["Template Name"], inplace=True)
         selected_df["English"] = selected_df["English"].astype(str)
@@ -246,7 +259,7 @@ def main_func(request):
         selected_df = selected_df.drop_duplicates(subset="Field Name")
         selected_df["Processed_English"] = selected_df["English"].apply(lambda x: process_english(x))
 
-        output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values)
+        output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values, guide_df)
 
         data_records = ProcessedData.objects.all()
 
