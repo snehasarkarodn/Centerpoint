@@ -251,7 +251,7 @@ def main_func(request):
             if not selected_rows.empty:
                 selected_df = pd.concat([selected_df, selected_rows], ignore_index=True)
             if not guide_row.empty:
-                guide_df = pd.concat([selected_df, selected_rows], ignore_index=True)
+                guide_df = pd.concat([guide_df, guide_row], ignore_index=True)
 
         selected_df.drop(columns=["Template Name"], inplace=True)
         selected_df["English"] = selected_df["English"].astype(str)
