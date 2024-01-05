@@ -10,6 +10,7 @@ from openpyxl.styles import PatternFill
 from .models import ProcessedData, SheetUpdate
 import time 
 from datetime import datetime
+import ast
 
 def process_english(english_string):
     unique_values = []
@@ -242,12 +243,13 @@ def main_func(request):
     guide_df = pd.DataFrame()
 
     if request.method == 'POST':
-        selected_values_str = request.POST.getlist('selected_items')
-        selected_values = selected_values_str[0]
+        selected_values_list = request.POST.getlist('selected_items')
+        selected_values_str = selected_values_list[0]
+        selected_values = ast.literal_eval(selected_values_str)
 
         for selected_template in selected_values:
-            selected_rows = merged_temp[merged_temp["Template Name"].str.contains(selected_template, regex=False)]
-            guide_row=guidelines[guidelines["Template Name"].str.contains(selected_template, regex=False)]
+            selected_rows = merged_temp[merged_temp["Template Name"]== selected_template]
+            guide_row=guidelines[guidelines["Template Name"]== selected_template]
             if not selected_rows.empty:
                 selected_df = pd.concat([selected_df, selected_rows], ignore_index=True)
             if not guide_row.empty:
@@ -259,7 +261,7 @@ def main_func(request):
         selected_df = selected_df.drop_duplicates(subset="Field Name")
         selected_df["Processed_English"] = selected_df["English"].apply(lambda x: process_english(x))
 
-        output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values, guide_df)
+        output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values_str, guide_df)
 
         data_records = ProcessedData.objects.all()
 
