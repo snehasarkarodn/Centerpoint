@@ -109,6 +109,8 @@ def process_file(request):
                     cell_value = row[field_name]
                     if (cell_value is not None) and (str(cell_value).strip() != "") and (not pd.isna(cell_value)):
                         processed_values = final_df.loc[(final_df['Template Name'] == template_name)&(final_df['Field Name'] == field_name), 'Processed_English'].iloc[0]
+                        if type(cell_value) == float:
+                                cell_value = str(int(cell_value))
                         if cell_value not in processed_values:
                             remark_text = f'{cell_value} of {field_name} is not from the predefined list |'
                             excel_data.at[_, 'Remarks'] += remark_text
