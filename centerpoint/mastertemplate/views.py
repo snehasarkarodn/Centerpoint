@@ -238,7 +238,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
         unique_id=unique_id,
         output_path=output_path,
         selected_values=selected_values_str,
-        filename = f"{selected_sheet}_{id}.xlsx",
+        filename = f"{selected_sheet}_{id}.xls",
         created_by = "ODN",
         duration_of_creation = (tot_time)
         )
