@@ -79,7 +79,7 @@ def add_formula(sheet, country, header_suffix, col_letter, input_col):
 
 
 
-def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values, guide_df):
+def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values_str, guide_df, merged_temp):
     start =time.time()
     selected_sheet = "CP Content_Template"
     master_temp = pd.read_excel(testdata, sheet_name=selected_sheet)
@@ -87,6 +87,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     unique_id = f"ODNCP_{datetime.now().strftime('%d%m%y')}_{id}"
     output_folder = os.path.join("mastertemplate", "stored_data")
     output_path = os.path.join(output_folder, f"{selected_sheet}_{id}.xlsx")
+    selected_values = ast.literal_eval(selected_values_str)
     with pd.ExcelWriter(output_path, engine='xlsxwriter') as writer:
         master_temp.to_excel(writer, sheet_name="Listing", index=False)
 
@@ -105,6 +106,21 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     for row_index, row_data in enumerate(guide_data):
         for col_index, value in enumerate(row_data):
             guide_sheet.cell(row=row_index + 1, column=col_index + 1, value=value)
+
+    for list_name in selected_values:
+        selected_row = merged_temp[merged_temp["Template Name"]== list_name]
+        selected_row["English"] = selected_row["English"].astype(str)
+        selected_row["Processed_English"] = selected_row["English"].apply(lambda x: process_english(x))
+        selected_row.drop(columns=["English","Template Name"],inplace=True)
+        transposed_data = selected_row.transpose().reset_index(drop=True)
+        data_to_write = transposed_data.values.tolist()
+        sheet_add = wb.create_sheet(list_name)
+        for row in data_to_write[:-1]:
+            sheet_add.append(row)
+        for col_values in data_to_write[-1:]:
+            for col_index, value in enumerate(col_values):
+                for row_index, val in enumerate(value, start=5):
+                    sheet_add.cell(row=row_index, column=col_index + 1, value=val)
 
 
     processed_english_df = pd.DataFrame()
@@ -261,7 +277,7 @@ def main_func(request):
         selected_df = selected_df.drop_duplicates(subset="Field Name")
         selected_df["Processed_English"] = selected_df["English"].apply(lambda x: process_english(x))
 
-        output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values_str, guide_df)
+        output_path = copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template_dropdown, selected_values_str, guide_df, merged_temp)
 
         data_records = ProcessedData.objects.all()
 
