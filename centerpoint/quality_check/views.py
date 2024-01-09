@@ -82,7 +82,8 @@ def process_file(request):
         duplicate_barcode = excel_data[excel_data.duplicated(subset=['Barcode'], keep=False)]
         for _, row in duplicate_barcode.iterrows():
             duplicate_rows = excel_data[excel_data['Barcode'] == row['Barcode']].index
-            remark_text = f'Duplicate values in rows{duplicate_rows.tolist()} |'
+            modified_duplicate_rows = [element + 2 for element in duplicate_rows.tolist()]
+            remark_text = f'Duplicate values in rows{modified_duplicate_rows} |'
             excel_data.loc[duplicate_rows, 'Remarks'] = remark_text
         
         # replacing null with blank for mandatory headers for selected category     
