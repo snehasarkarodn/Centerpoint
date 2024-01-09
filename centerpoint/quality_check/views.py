@@ -132,7 +132,7 @@ def process_file(request):
                     if (cell_value is not None) and (str(cell_value).strip() != "") and (not pd.isna(cell_value)):
                         processed_values = fixed_val[col_name].tolist()
                         processed_values = [str(value) if isinstance(value, int) or isinstance(value, float)  else value for value in processed_values]
-                        if type(cell_value) == float:
+                        if type(cell_value) == float or type(cell_value) == int:
                                 cell_value = str(int(cell_value))
                         if cell_value.strip() not in processed_values:
                             remark_text = f'{cell_value} of {col_name} is not from the predefined list |'
