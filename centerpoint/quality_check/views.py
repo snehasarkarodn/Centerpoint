@@ -57,6 +57,7 @@ def process_file(request):
         file_path = os.path.join("mastertemplate", "Centerpoint_master_template", "centrepoint_Template and attribute.xlsx")
         temp_file = pd.read_excel(file_path, sheet_name='Attribute and Values')
         temp_mand = pd.read_excel(file_path, sheet_name='Template_Mandatory')
+        fixed_val = pd.read_excel(file_path, sheet_name='Template_dropdown_values')
         yes_values_list = [column for column in temp_mand.columns if temp_mand[column].iloc[0] == "Yes"]
         mandatory_col=[]
         missed_header=''
@@ -124,6 +125,22 @@ def process_file(request):
                         excel_data.at[_, 'Remarks'] += remark_text
 
                         found_cells.append((_ + 2, excel_data.columns.get_loc(field_name) + 1))
+            # Color_Name and Size_value for dropdown mismatch marking
+            for col_name in excel_data.columns:
+                if col_name in fixed_val.columns:
+                    cell_value=row[col_name]
+                    if (cell_value is not None) and (str(cell_value).strip() != "") and (not pd.isna(cell_value)):
+                        processed_values = fixed_val[col_name].tolist()
+                        processed_values = [str(value) if isinstance(value, int) or isinstance(value, float)  else value for value in processed_values]
+                        if type(cell_value) == float:
+                                cell_value = str(int(cell_value))
+                        if cell_value.strip() not in processed_values:
+                            remark_text = f'{cell_value} of {col_name} is not from the predefined list |'
+                            excel_data.at[_, 'Remarks'] += remark_text
+
+                            found_cells.append((_ + 2, excel_data.columns.get_loc(col_name) + 1))
+                        else:
+                            pass
                             
         with pd.ExcelWriter(output_path, engine='openpyxl', mode='a') as writer:
             excel_data.to_excel(writer, sheet_name='FinalQC', index=False)
