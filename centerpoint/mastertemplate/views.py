@@ -83,6 +83,7 @@ def copy_and_modify_master_temp(selected_df, mandatory_fixed, testdata, template
     start =time.time()
     selected_sheet = "CP Content_Template"
     master_temp = pd.read_excel(testdata, sheet_name=selected_sheet)
+    selected_sheet = "CP_Content_Template"
     id = str(uuid.uuid4())[:8]
     unique_id = f"ODNCP_{datetime.now().strftime('%d%m%y')}_{id}"
     output_folder = os.path.join("mastertemplate", "stored_data")
